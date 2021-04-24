@@ -14,3 +14,4 @@ const notices = [
         footnote: 'Very important'
     },
 ]
+export default notices

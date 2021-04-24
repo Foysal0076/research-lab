@@ -8,6 +8,8 @@ import Member from './models/memberModel.js'
 import User from './models/userModel.js'
 import Publication from './models/publicationModel.js'
 import publications from './data/publications.js'
+import notices from './data/notices.js'
+import Notice from './models/noticeModel.js'
 
 dotenv.config()
 
@@ -18,8 +20,10 @@ const importData = async () => {
         await Member.deleteMany()
         await User.deleteMany()
         await Publication.deleteMany()
+        await Notice.deleteMany()
 
         const createdUsers = await User.insertMany(users)
+        await Notice.insertMany(notices)
 
         const adminUser = createdUsers[0]._id
 
@@ -41,8 +45,6 @@ const importData = async () => {
             return member
 
         })
-
-        console.log(sampleMemberspub)
 
         await Member.insertMany(sampleMemberspub)
 

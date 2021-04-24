@@ -18,11 +18,15 @@ const getMembers = asyncHandler(async (req, res) => {
 //@access   Public
 const getMemberById = asyncHandler(async (req, res, next) => {
 
-    const member = await Member.findById(req.params.id)
+    const member = await Member.findById(req.params.id).populate(
+        'publications', 'title'
+    )
     if (!member) {
         return next(new ErrorResponse(`Member not found with id ${req.params.id}`, 404))
     }
+
     res.status(200).json(member)
 })
+
 
 export { getMembers, getMemberById }

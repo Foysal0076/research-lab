@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const publicationModel = mongoose.Schema({
+const publicationSchema = mongoose.Schema({
     title: {
         type: String,
         requierd: true
@@ -10,7 +10,12 @@ const publicationModel = mongoose.Schema({
         requierd: true
     },
     source: { type: String },
-    authors: [mongoose.Schema.Types.ObjectId],
+    authors: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     authorNames: {
         type: String,
         required: true
@@ -18,6 +23,6 @@ const publicationModel = mongoose.Schema({
 
 })
 
-const Publication = mongoose.model('Publication', publicationModel)
+const Publication = mongoose.model('Publication', publicationSchema)
 
 export default Publication

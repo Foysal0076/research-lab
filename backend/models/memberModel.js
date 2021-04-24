@@ -50,6 +50,7 @@ const memberSchema = mongoose.Schema({
     publications: [
         {
             type: mongoose.Schema.Types.ObjectId,
+            default: [],
             ref: 'Publication'
         }
     ],
