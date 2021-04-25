@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 const memberSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'User'
     },
     name: {
@@ -11,6 +12,7 @@ const memberSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true
     },
     gender: {
         type: String,
@@ -34,7 +36,7 @@ const memberSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    workplace: {
+    workPlace: {
         type: String,
     },
     labDesignation: {
@@ -50,7 +52,6 @@ const memberSchema = mongoose.Schema({
     publications: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            default: [],
             ref: 'Publication'
         }
     ],
@@ -92,6 +93,9 @@ const memberSchema = mongoose.Schema({
         github: {
             type: String,
         },
+    },
+    mobile: {
+        type: String
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,

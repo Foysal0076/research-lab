@@ -1,8 +1,9 @@
 import express from 'express'
-import { getPublications } from '../controllers/publicationController.js'
+import { getPublication, getPublications } from '../controllers/publicationController.js'
 
 const router = express.Router()
 
-router.get('/:id', getPublications)
+router.route('/').get(getPublications)
+router.route('/:id').get(getPublication)
 
 export default router

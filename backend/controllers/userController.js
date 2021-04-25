@@ -3,7 +3,7 @@ import asyncHandler from "../middleWare/asyncHandler.js"
 import User from "../models/userModel.js"
 import ErrorResponse from "../utils/ErrorResponse.js"
 import generateToken from "../utils/generateToken.js"
-
+import bcrypt from 'bcryptjs'
 
 //@route    POST /api/users/login
 //@desc     Auth user and get auth token
@@ -67,6 +67,7 @@ const getUsers = asyncHandler(async (req, res) => {
 //@access   private
 const getUser = expressAsyncHandler(async (req, res, next) => {
     const user = await User.findById(req.params.id)
+
     if (!user) {
         // return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
         throw new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
@@ -74,4 +75,28 @@ const getUser = expressAsyncHandler(async (req, res, next) => {
     res.status(200).json(user)
 })
 
-export { getUser, getUsers, authUser, registerUser }
+//@route    POST /api/users/
+//@desc     Register a user
+//@access   public
+const editUser = asyncHandler(async (req, res) => {
+    const { name, email, isAdmin, password } = req.body
+
+    const user = await User.findById(req.params.id)
+    if (!user) {
+        throw new ErrorResponse('User not found', 404)
+    }
+
+    user.name = name || user.name
+    user.email = email || user.email
+    user.isAdmin = isAdmin || user.isAdmin
+
+    const updatedUser = await user.save()
+    res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+    })
+})
+
+export { getUser, getUsers, authUser, registerUser, editUser }
