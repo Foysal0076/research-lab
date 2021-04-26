@@ -1,14 +1,13 @@
-import expressAsyncHandler from "express-async-handler"
+
 import asyncHandler from "../middleWare/asyncHandler.js"
 import User from "../models/userModel.js"
 import ErrorResponse from "../utils/ErrorResponse.js"
 import generateToken from "../utils/generateToken.js"
-import bcrypt from 'bcryptjs'
 
 //@route    POST /api/users/login
 //@desc     Auth user and get auth token
 //@access   public
-const authUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
@@ -22,7 +21,8 @@ const authUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id)
         })
     } else {
-        throw new ErrorResponse(`Invalid email or password`, 401)
+        return next(new ErrorResponse(`Invalid email or password`, 401))
+        // throw new ErrorResponse(`Invalid email or password`, 401)
     }
 })
 
@@ -65,7 +65,7 @@ const getUsers = asyncHandler(async (req, res) => {
 //@route    GET /api/users/id
 //@desc     Fetch single user
 //@access   private
-const getUser = expressAsyncHandler(async (req, res, next) => {
+const getUser = asyncHandler(async (req, res, next) => {
     const user = await User.findById(req.params.id)
 
     if (!user) {
