@@ -31,7 +31,7 @@ const Header = () => {
                     <NavbarToggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto' style={navStyle} >
-                            
+
                             <LinkContainer to='/'>
                                 <Nav.Link >Home</Nav.Link>
                             </LinkContainer>
@@ -42,6 +42,9 @@ const Header = () => {
 
                             <LinkContainer to='/publications'>
                                 <Nav.Link>Publication</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to='/focusarea'>
+                                <Nav.Link>Focus Area</Nav.Link>
                             </LinkContainer>
 
                             {userInfo ? (

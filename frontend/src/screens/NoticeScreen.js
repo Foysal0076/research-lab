@@ -5,7 +5,6 @@ import { getNotices } from '../actions/noticeActions'
 import Loader from '../components/layout/Loader'
 import Message from '../components/layout/Message'
 import moment from 'moment'
-import { LinkContainer } from 'react-router-bootstrap'
 import Linkify from 'react-linkify'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 

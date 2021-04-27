@@ -9,6 +9,7 @@ import FacultyScreen from './screens/FacultyScreen'
 import NoticeScreen from './screens/NoticeScreen'
 import FacultyDetailsScreen from './screens/FacultyDetailsScreen'
 import PublicationScreen from './screens/PublicationScreen'
+import FocusArea from './components/FocusArea'
 function App() {
   return (
     <Router>
@@ -21,8 +22,9 @@ function App() {
             <Route exact path='/faculty' component={FacultyScreen} />
             <Route exact path='/faculty/:id' component={FacultyDetailsScreen} />
             <Route exact path='/publications' component={PublicationScreen} />
-            <Route exact path='/notice' component={NoticeScreen} />
+            <Route exact path='/noticeboard' component={NoticeScreen} />
           </Container>
+            <Route exact path='/focusarea' component={FocusArea} />
         </div>
         <Footer />
       </main>
