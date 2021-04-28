@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap'
 
 
 const PublicationsTable = ({ publications }) => {
-    const [source, setSource] = useState('')
 
     return (
         <Table striped responsive hover >

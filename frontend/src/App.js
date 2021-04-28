@@ -9,11 +9,15 @@ import FacultyScreen from './screens/FacultyScreen'
 import NoticeScreen from './screens/NoticeScreen'
 import FacultyDetailsScreen from './screens/FacultyDetailsScreen'
 import PublicationScreen from './screens/PublicationScreen'
+import ContactScreen from './screens/ContactScreen'
 import FocusArea from './components/FocusArea'
+
+import bg1 from './assets/bg1.jpg'
+
 function App() {
   return (
     <Router>
-      <main>
+      <main style={{ backgroundImage: `url(${bg1})` }} >
         <div id='content-wrap' >
           <Header />
           <Container>
@@ -23,8 +27,9 @@ function App() {
             <Route exact path='/faculty/:id' component={FacultyDetailsScreen} />
             <Route exact path='/publications' component={PublicationScreen} />
             <Route exact path='/noticeboard' component={NoticeScreen} />
+            <Route exact path='/contact' component={ContactScreen} />
           </Container>
-            <Route exact path='/focusarea' component={FocusArea} />
+          <Route exact path='/focusarea' component={FocusArea} />
         </div>
         <Footer />
       </main>

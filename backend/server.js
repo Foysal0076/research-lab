@@ -6,6 +6,7 @@ import membeRoutes from './routes/memberRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import publicationRoutes from './routes/publicationRoutes.js'
 import noticeRoutes from './routes/noticeRoutes.js'
+import visitorMessageRoutes from './routes/visitorMessageRoutes.js'
 import { errorHandler, notFound } from './middleWare/errorMiddleWare.js'
 
 
@@ -23,6 +24,7 @@ app.use('/api/members', membeRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/publications', publicationRoutes)
 app.use('/api/notices', noticeRoutes)
+app.use('/api/visitormessages', visitorMessageRoutes)
 
 app.use(notFound) //This will send error if a request arrives with invalid url
 app.use(errorHandler) //This will prevent sending error in Html format

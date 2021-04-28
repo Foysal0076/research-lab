@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, FormControl } from 'react-bootstrap'
+import { Button, Col, Form, FormControl, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFacultyList } from '../actions/facultyActions'
 import Faculty from '../components/Faculty'

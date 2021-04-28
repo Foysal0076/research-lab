@@ -1,1 +1,5 @@
 @import './focusArea.css';
+
+.table-hover tbody tr:hover {
+  background-color: rgb(236, 135, 52);
+}
