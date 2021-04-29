@@ -8,7 +8,7 @@ const Notice = ({ notices }) => {
     const [noticeIndex, setNoticeIndex] = useState(0)
 
     return (
-        <>
+        <div>
             <ListGroup>
                 {notices.map((notice, index) => (
                     <ListGroupItem key={notice._id} action className='d-flex justify-content-between' onClick={() => {
@@ -24,15 +24,16 @@ const Notice = ({ notices }) => {
                 <Modal
                     show={show}
                     onHide={() => setShow(false)}
-                    backDrop='static'
-                    keyboard={false}>
+                    centered
+                    keyboard={false}
+                >
                     <ModalHeader closeButton>
                         <ModalTitle>{notices[noticeIndex].title}</ModalTitle>
                     </ModalHeader>
                     <ModalBody>{<p>{notices[noticeIndex].body}</p>}</ModalBody>
                 </Modal>
             }
-        </>
+        </div>
     )
 }
 

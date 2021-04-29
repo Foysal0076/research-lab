@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import { Table } from 'react-bootstrap'
-
+import React from 'react'
+import { Button, Table } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const PublicationsTable = ({ publications }) => {
+
+    const { userInfo } = useSelector(state => state.userLogin)
 
     return (
         <Table striped responsive hover >
@@ -12,6 +15,7 @@ const PublicationsTable = ({ publications }) => {
                     <th>TITLE</th>
                     <th>TYPE</th>
                     <th>AUTHORS</th>
+                    {userInfo && userInfo.isAdmin && <th></th>}
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +26,22 @@ const PublicationsTable = ({ publications }) => {
                             <td>{publication.title}</td>
                             <td>{publication.type}</td>
                             <td>{publication.authorNames}</td>
+                            {userInfo && userInfo.isAdmin && (
+                                <td>
+                                    <LinkContainer to={`/admin/user/${publication._id}/edit`}>
+                                        <Button variant='light' className='btn-sm'>
+                                            <i className='fas fa-edit'></i>
+                                        </Button>
+                                    </LinkContainer>
+                                    {/* <Button
+                                        variant='danger'
+                                        className='btn-sm'
+                                        onClick={() => deleteHandler(publication._id)}
+                                    >
+                                        <i className='fas fa-trash'></i>
+                                    </Button> */}
+                                </td>
+                            )}
                         </tr>
                     ))
                 )}

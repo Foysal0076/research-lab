@@ -27,42 +27,45 @@ const LoginScreen = ({ history }) => {
     }
 
     return (
-        <FormContainer >
-            <h1 >Sign In</h1>
+        <FormContainer>
             {error && <Message variant='danger' >{error}</Message>}
-            {loading && <Loader />}
-            <Form onSubmit={onSubmitHandler} >
-                <FormGroup>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl
-                        type='email'
-                        placeholder='Enter email'
-                        value={email}
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                    ></FormControl>
-                </FormGroup>
+            {loading ? <Loader /> : (
+                <>
+                    <h1 >Sign In</h1>
+                    <Form onSubmit={onSubmitHandler} >
+                        <FormGroup controlId='email'>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl
+                                type='email'
+                                placeholder='Enter email'
+                                value={email}
+                                required
+                                onChange={(e) => setEmail(e.target.value)}
+                            ></FormControl>
+                        </FormGroup>
 
-                <FormGroup>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl
-                        type='password'
-                        placeholder='Enter password'
-                        value={password}
-                        required
-                        onChange={(e) => setPassword(e.target.value)}
-                    >
-                    </FormControl>
-                </FormGroup>
-                <Button type='submit'>Sign In</Button>
-            </Form>
-            <Row className='py-3'>
-                <Col>
-                    New User? <Link to='/register' style={{ fontSize: '1.2rem' }}>
-                        Sign Up
+                        <FormGroup controlId='password'>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl
+                                type='password'
+                                placeholder='Enter password'
+                                value={password}
+                                required
+                                onChange={(e) => setPassword(e.target.value)}
+                            >
+                            </FormControl>
+                        </FormGroup>
+                        <Button type='submit'>Sign In</Button>
+                    </Form>
+                    <Row className='py-3'>
+                        <Col>
+                            New User? <Link to='/register' style={{ fontSize: '1.2rem' }}>
+                                Sign Up
                     </Link>
-                </Col>
-            </Row>
+                        </Col>
+                    </Row>
+                </>
+            )}
         </FormContainer>
     )
 }
