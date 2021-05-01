@@ -121,10 +121,10 @@ const NoticeScreen = () => {
                         <Modal
                             show={show}
                             onHide={() => {
-                                setShow(false)
                                 setTitle('')
                                 setBody('')
                                 setFootnote('')
+                                setShow(false)
                             }}
                             centered
                             keyboard={false}>
@@ -145,10 +145,10 @@ const NoticeScreen = () => {
                 <Modal
                     show={showEditNoticeModal}
                     onHide={() => {
-                        setShowEditNoticeModal(false)
                         setTitle('')
                         setBody('')
                         setFootnote('')
+                        setShowEditNoticeModal(false)
                     }}
                     keyboard={false}>
                     <ModalHeader closeButton>

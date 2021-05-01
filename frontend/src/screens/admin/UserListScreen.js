@@ -13,9 +13,6 @@ const UserListScreen = ({ history }) => {
 
     const { userInfo } = useSelector((state) => state.userLogin)
 
-    //   const userDelete = useSelector((state) => state.userDelete)
-    //   const { success: successDelete } = userDelete
-
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
             dispatch(listUsers())
@@ -23,10 +20,6 @@ const UserListScreen = ({ history }) => {
             history.push('/login')
         }
     }, [dispatch, history, userInfo])
-
-    const profileHandler = (userId) => {
-        history.push(`/profile/${userId}`)
-    }
 
     return (
         <>
@@ -62,7 +55,7 @@ const UserListScreen = ({ history }) => {
                                     )}
                                 </td>
                                 <td>
-                                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                                    <LinkContainer to={`/admin/users/${user._id}/edit`}>
                                         <Button variant='light' className='btn-sm'>
                                             <i className='fas fa-edit'></i>
                                         </Button>

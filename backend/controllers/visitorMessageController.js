@@ -1,5 +1,6 @@
 import asyncHandler from "../middleWare/asyncHandler.js"
 import VisitorMessage from "../models/visitorMessageModel.js"
+import ErrorResponse from '../utils/ErrorResponse.js'
 
 //@route    GET /api/visitormessages
 //@desc     get visitor messages
@@ -34,4 +35,17 @@ const sendMessageToAdmin = asyncHandler(async (req, res) => {
     res.status(201).json(sentMessage)
 })
 
-export { getVisitorMessages, sendMessageToAdmin }
+//@route    DELETE /api/visitormessages/:id
+//@desc     delete a visitor messages
+//@access   protect / ADMIN
+const deleteVisitorMessage = asyncHandler(async (req, res) => {
+    const message = VisitorMessage.findById(req.params.id)
+    if (message) {
+        await message.remove()
+        res.json({ success: true })
+    } else {
+        throw new ErrorResponse('Message not found', 404)
+    }
+})
+
+export { getVisitorMessages, sendMessageToAdmin, deleteVisitorMessage }

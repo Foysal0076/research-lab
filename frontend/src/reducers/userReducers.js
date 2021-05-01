@@ -1,4 +1,4 @@
-import { USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../actions/types"
+import { USER_EDIT_INFO_FAIL, USER_EDIT_INFO_REQUEST, USER_EDIT_INFO_RESET, USER_EDIT_INFO_SUCCESS, USER_INFO_FAIL, USER_INFO_REQUEST, USER_INFO_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../actions/types"
 
 
 export const userLoginReducer = (state = {}, action) => {
@@ -64,6 +64,53 @@ export const userListReducer = (state = { users: [] }, action) => {
                 loading: false,
                 error: action.payload
             }
+
+        default:
+            return state
+    }
+}
+
+export const userInfoReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_INFO_REQUEST:
+            return {
+                loading: true
+            }
+        case USER_INFO_SUCCESS:
+            return {
+                loading: false,
+                user: action.payload
+            }
+        case USER_INFO_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+
+        default:
+            return state
+    }
+}
+
+export const userEditInfoReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_EDIT_INFO_REQUEST:
+            return {
+                loading: true
+            }
+        case USER_EDIT_INFO_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+                user: action.payload
+            }
+        case USER_EDIT_INFO_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case USER_EDIT_INFO_RESET:
+            return {}
 
         default:
             return state

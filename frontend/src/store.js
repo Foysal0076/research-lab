@@ -1,11 +1,11 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { userListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+import { userEditInfoReducer, userInfoReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 import { noticeCreateReducer, noticeDeleteReducer, noticeEditReducer, noticeReducer } from './reducers/noticeReducers'
 import { facultyDetailsReducer, facultyListReducer, facultyProfileCreateReducer, facultyProfileReducer } from './reducers/facultyReducers'
 import { publicationReducer } from './reducers/publicationReducers'
-import { visitorMessageSendReducer } from './reducers/visitorMessageReducers'
+import { visitorMessageDeleteReducer, visitorMessageListReducer, visitorMessageSendReducer } from './reducers/visitorMessageReducers'
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
@@ -37,6 +37,10 @@ const reducer = combineReducers({
     noticeCreate: noticeCreateReducer,
     noticeEdit: noticeEditReducer,
     noticeDelete: noticeDeleteReducer,
+    userInfo: userInfoReducer,
+    userEdit: userEditInfoReducer,
+    visitorMessageList: visitorMessageListReducer,
+    visitorMessageDelete: visitorMessageDeleteReducer,
 })
 
 const store = createStore(

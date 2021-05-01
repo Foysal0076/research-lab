@@ -72,16 +72,22 @@ const getUser = asyncHandler(async (req, res, next) => {
         // return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
         throw new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
     }
-    res.status(200).json(user)
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateToken(user._id),
+    })
 })
 
 //@route    POST /api/users/
-//@desc     Register a user
-//@access   public
+//@desc     Edit user information
+//@access   protect
 const editUser = asyncHandler(async (req, res) => {
     const { name, email, isAdmin, password } = req.body
-
-    const user = await User.findById(req.params.id)
+    const userId = req.params.id || req.user.id
+    const user = await User.findById(userId)
     if (!user) {
         throw new ErrorResponse('User not found', 404)
     }
@@ -89,6 +95,10 @@ const editUser = asyncHandler(async (req, res) => {
     user.name = name || user.name
     user.email = email || user.email
     user.isAdmin = isAdmin || user.isAdmin
+
+    if (password) {
+        user.password = password
+    }
 
     const updatedUser = await user.save()
     res.json({
