@@ -11,6 +11,10 @@ const noticeSchema = mongoose.Schema({
     },
     footnote: {
         type: String,
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
 }, {
     timestamps: true

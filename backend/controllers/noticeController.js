@@ -13,4 +13,63 @@ const getNotices = asyncHandler(async (req, res) => {
     res.status(200).json(notices)
 })
 
-export { getNotices }
+//@route    POST /api/notices
+//@desc     Create Notice
+//@access  protect / ADMIN
+const createNotice = asyncHandler(async (req, res) => {
+    const { title, body, footnote } = req.body
+
+    const newNotice = await Notice.create({
+        title,
+        body,
+        footnote,
+        createdBy: req.user._id
+    })
+
+    if (newNotice) {
+        res.status(201).json(newNotice)
+    } else {
+        throw new ErrorResponse('Notice create fail', 500)
+    }
+
+})
+
+//@route    PUT /api/notices
+//@desc     Edit a Notice
+//@access   protect / ADMIN
+const editNotice = asyncHandler(async (req, res) => {
+    const { title, body, footnote } = req.body
+
+    const notice = await Notice.findById(req.params.id)
+    if (notice) {
+        notice.title = title || notice.title
+        notice.body = body || notice.body
+        notice.footnote = footnote || notice.footnote
+    }
+    const editedNotice = await notice.save()
+
+    if (editedNotice) {
+        res.status(201).json(editedNotice)
+    } else {
+        throw new ErrorResponse('Edit Notice fail', 500)
+    }
+
+})
+
+//@route    PUT /api/notices
+//@desc     Edit a Notice
+//@access   protect / ADMIN
+const deleteNotice = asyncHandler(async (req, res) => {
+
+    const notice = await Notice.findById(req.params.id)
+
+    if (notice) {
+        await notice.remove()
+        res.status(200).json({ success: true })
+    } else {
+        throw new ErrorResponse('Delete Fail', 500)
+    }
+
+})
+
+export { getNotices, createNotice, editNotice, deleteNotice }

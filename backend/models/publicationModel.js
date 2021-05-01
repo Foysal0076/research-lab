@@ -18,7 +18,7 @@ const publicationSchema = mongoose.Schema({
     ],
     authorNames: {
         type: String,
-        required: true
+        required: true,
     },
 
 })
