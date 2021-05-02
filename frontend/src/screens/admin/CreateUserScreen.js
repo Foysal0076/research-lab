@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import FormContainer from '../components/layout/FormContainer'
-import { registerUser } from '../actions/userActions'
-import Message from '../components/layout/Message'
-import Loader from '../components/layout/Loader'
+import FormContainer from '../../components/layout/FormContainer'
+import Message from '../../components/layout/Message'
+import Loader from '../../components/layout/Loader'
 
-const RegisterScreen = ({ history }) => {
+const CreateUserScreen = ({ history }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -16,21 +15,15 @@ const RegisterScreen = ({ history }) => {
 
     const dispatch = useDispatch()
 
-    const { loading, error, userInfo } = useSelector((state) => state.userRegister)
+    const { loading, error, success } = useSelector((state) => state.userCreate)
 
-
-    useEffect(() => {
-        if (userInfo) {
-            history.push('/')
-        }
-    }, [history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(registerUser(name, email, password))
+            // dispatch(registerUser(name, email, password))
         }
     }
 
@@ -98,4 +91,4 @@ const RegisterScreen = ({ history }) => {
     )
 }
 
-export default RegisterScreen
+export default CreateUserScreen

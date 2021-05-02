@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, FormControl, FormFile, FormGroup, FormLabel, FormText } from 'react-bootstrap'
+import { Button, Card, Form, FormControl, FormFile, FormGroup, FormLabel, FormText } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { createFacultyProfile } from '../../actions/facultyActions'
 import FormContainer from '../../components/layout/FormContainer'
@@ -38,6 +38,7 @@ const CreateFacultyProfile = ({ history, match }) => {
     const [intro, setIntro] = useState('')
 
     const { loading, error, success } = useSelector(state => state.facultyProfileCreate)
+    
 
     useEffect(() => {
         if (success) {
@@ -91,6 +92,8 @@ const CreateFacultyProfile = ({ history, match }) => {
             <h2 className='text-center' >Create Faculty Profile</h2>
             <FormContainer>
                 <Form onSubmit={submitHandler} >
+                    <Card bg='light' className='mb-2' >
+                        <Card.Body>
                     <p style={headerStyle} className='text-primary' >Personal Information</p>
                     <FormGroup controlId='name'>
                         <FormLabel>Name</FormLabel>
@@ -130,7 +133,6 @@ const CreateFacultyProfile = ({ history, match }) => {
                             <option value='Other'>Other</option>
                         </FormControl>
                     </FormGroup>
-
                     <FormGroup controlId='designation'>
                         <FormLabel>Designation</FormLabel>
                         <FormControl
@@ -159,7 +161,11 @@ const CreateFacultyProfile = ({ history, match }) => {
                             onChange={(e) => setMobile(e.target.value)}
                         ></FormControl>
                     </FormGroup>
+                        </Card.Body>
+                    </Card>
 
+                    <Card bg='light' className='mb-2'>
+                        <Card.Body>
                     <p style={headerStyle} className='text-primary'>Contact Details</p>
                     <FormGroup controlId='address'>
                         <FormLabel>Address</FormLabel>
@@ -200,7 +206,10 @@ const CreateFacultyProfile = ({ history, match }) => {
                             required
                         ></FormControl>
                     </FormGroup>
-
+                        </Card.Body>
+                    </Card>
+                    <Card bg='light' className='mb-2'>
+                        <Card.Body>
                     <p style={headerStyle} className='text-primary'>Social Links</p>
                     <FormGroup controlId='facebook'>
                         <FormLabel>Facebook</FormLabel>
@@ -256,6 +265,10 @@ const CreateFacultyProfile = ({ history, match }) => {
                             onChange={(e) => setInstagram(e.target.value)}
                         ></FormControl>
                     </FormGroup>
+                        </Card.Body>
+                    </Card>
+                    <Card bg='light' className='mb-2'>
+                        <Card.Body>
 
                     <p style={headerStyle} className='text-primary'>Lab Details</p>
                     <FormGroup controlId='labDesignation'>
@@ -306,7 +319,11 @@ const CreateFacultyProfile = ({ history, match }) => {
                             onChange={(e) => setJoiningDate(e.target.value)}
                         ></FormControl>
                     </FormGroup>
+                        </Card.Body>
+                    </Card>
 
+                    <Card bg='light' className='mb-2'>
+                        <Card.Body>
                     <FormGroup controlId='intro'>
                         <FormLabel>Intro</FormLabel>
                         <FormControl
@@ -322,7 +339,7 @@ const CreateFacultyProfile = ({ history, match }) => {
                         <FormLabel>Image</FormLabel>
                         <FormControl
                             type='text'
-                            placeholder='Enter Image Url'
+                            placeholder='Image Url'
                             value={image}
                             onChange={(e) => setImage(`/images/${e.target.value}.png`)}
                             required
@@ -334,6 +351,8 @@ const CreateFacultyProfile = ({ history, match }) => {
                             onChange={uploadFileHandler}
                         ></FormFile>
                     </FormGroup>
+                        </Card.Body>
+                    </Card>
 
                     <Button type='submit' variant='outline-primary' block>Submit</Button>
                 </Form>

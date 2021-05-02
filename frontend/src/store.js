@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { userEditInfoReducer, userInfoReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
+import { userCreateReducer, userEditInfoReducer, userInfoReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 import { noticeCreateReducer, noticeDeleteReducer, noticeEditReducer, noticeReducer } from './reducers/noticeReducers'
-import { facultyDetailsReducer, facultyListReducer, facultyProfileCreateReducer, facultyProfileReducer } from './reducers/facultyReducers'
+import { facultyDetailsReducer, facultyListReducer, facultyProfileCreateReducer, facultyProfileEditReducer, facultyProfileReducer } from './reducers/facultyReducers'
 import { publicationReducer } from './reducers/publicationReducers'
 import { visitorMessageDeleteReducer, visitorMessageListReducer, visitorMessageSendReducer } from './reducers/visitorMessageReducers'
 
@@ -41,6 +41,8 @@ const reducer = combineReducers({
     userEdit: userEditInfoReducer,
     visitorMessageList: visitorMessageListReducer,
     visitorMessageDelete: visitorMessageDeleteReducer,
+    facultyProfileEdit: facultyProfileEditReducer,
+    userCreate: userCreateReducer,
 })
 
 const store = createStore(

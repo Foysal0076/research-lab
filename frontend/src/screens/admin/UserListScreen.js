@@ -23,7 +23,14 @@ const UserListScreen = ({ history }) => {
 
     return (
         <>
+        <div className="d-flex py-2 justify-content-between">
             <h1>Users</h1>
+            <Button
+            variant='outline-primary'
+            onClick={()=> history.push('/register')}>
+                <i className="fas fa-user-plus"></i> Create User
+            </Button>
+        </div>
             {loading ? (
                 <Loader />
             ) : error ? (
@@ -64,7 +71,7 @@ const UserListScreen = ({ history }) => {
                                     <Button
                                         variant='danger'
                                         className='btn-sm'
-                                        onClick={() => history.push(`/profile/${user._id}`)}
+                                        onClick={() => history.push(`/admin/users/profiles/${user._id}`)}
                                     >
                                         <i className='fas fa-user'></i>
                                     </Button>

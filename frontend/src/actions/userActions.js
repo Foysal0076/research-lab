@@ -1,5 +1,5 @@
 import axios from "axios"
-import { USER_EDIT_INFO_FAIL, USER_EDIT_INFO_REQUEST, USER_EDIT_INFO_SUCCESS, USER_INFO_FAIL, USER_INFO_REQUEST, USER_INFO_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "./types"
+import { USER_CREATE_FAIL, USER_CREATE_REQUEST, USER_CREATE_SUCCESS, USER_EDIT_INFO_FAIL, USER_EDIT_INFO_REQUEST, USER_EDIT_INFO_SUCCESS, USER_INFO_FAIL, USER_INFO_REQUEST, USER_INFO_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "./types"
 
 
 
@@ -155,5 +155,27 @@ export const editUserInfo = (id, name, email, isAdmin, password) => async (dispa
     }
 }
 
+export const createUser = (name, email, password) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_CREATE_REQUEST })
 
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const { data } = await axios.post('/api/users', { name, email, password }, config)
+
+        dispatch({
+            type: USER_CREATE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: USER_CREATE_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
 

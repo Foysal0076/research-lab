@@ -1,4 +1,4 @@
-import { FACULTY_DETAILS_FAIL, FACULTY_DETAILS_REQUEST, FACULTY_DETAILS_SUCCESS, FACULTY_FAIL, FACULTY_PROFILE_CREATE_FAIL, FACULTY_PROFILE_CREATE_REQUEST, FACULTY_PROFILE_CREATE_SUCCESS, FACULTY_PROFILE_FAIL, FACULTY_PROFILE_REQUEST, FACULTY_PROFILE_SUCCESS, FACULTY_REQUEST, FACULTY_SUCCESS } from "../actions/types"
+import { FACULTY_DETAILS_FAIL, FACULTY_DETAILS_REQUEST, FACULTY_DETAILS_SUCCESS, FACULTY_FAIL, FACULTY_PROFILE_CREATE_FAIL, FACULTY_PROFILE_CREATE_REQUEST, FACULTY_PROFILE_CREATE_SUCCESS, FACULTY_PROFILE_EDIT_FAIL, FACULTY_PROFILE_EDIT_REQUEST, FACULTY_PROFILE_EDIT_RESET, FACULTY_PROFILE_EDIT_SUCCESS, FACULTY_PROFILE_FAIL, FACULTY_PROFILE_REQUEST, FACULTY_PROFILE_SUCCESS, FACULTY_REQUEST, FACULTY_SUCCESS } from "../actions/types"
 
 
 export const facultyListReducer = (state = { faculty: [] }, action) => {
@@ -73,7 +73,7 @@ export const facultyProfileReducer = (state = { profile: null }, action) => {
     }
 }
 
-export const facultyProfileCreateReducer = (state = { }, action) => {
+export const facultyProfileCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case FACULTY_PROFILE_CREATE_REQUEST:
             return {
@@ -91,6 +91,33 @@ export const facultyProfileCreateReducer = (state = { }, action) => {
                 loading: false,
                 error: action.payload
             }
+
+        default:
+            return state
+    }
+}
+
+export const facultyProfileEditReducer = (state = {}, action) => {
+    switch (action.type) {
+        case FACULTY_PROFILE_EDIT_REQUEST:
+            return {
+                loading: true
+            }
+
+        case FACULTY_PROFILE_EDIT_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+                profile: action.payload
+            }
+
+        case FACULTY_PROFILE_EDIT_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case FACULTY_PROFILE_EDIT_RESET:
+            return {}
 
         default:
             return state
