@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, FormGroup, FormLabel, Modal, ModalBody, ModalFooter, ModalTitle, Table, FormControl } from 'react-bootstrap'
+import { Button, Form, FormGroup, FormLabel, Modal, ModalBody, ModalTitle, Table, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNotice, deleteNotice, editNotice, getNotices } from '../actions/noticeActions'
 import Loader from '../components/layout/Loader'
@@ -24,9 +24,9 @@ const NoticeScreen = () => {
     const { userInfo } = useSelector(state => state.userLogin)
 
     const { loading, error, notices } = useSelector(state => state.notice)
-    const { loading: createLoading, error: createError, success: createSuccess } = useSelector(state => state.noticeCreate)
-    const { loading: editLoading, error: editError, success: editSuccess } = useSelector(state => state.noticeEdit)
-    const { loading: deleteLoading, error: deleteError, success: deleteSuccess } = useSelector(state => state.noticeDelete)
+    const { error: createError, success: createSuccess } = useSelector(state => state.noticeCreate)
+    const { error: editError, success: editSuccess } = useSelector(state => state.noticeEdit)
+    const { error: deleteError, success: deleteSuccess } = useSelector(state => state.noticeDelete)
 
     useEffect(() => {
         dispatch(getNotices())
@@ -53,11 +53,13 @@ const NoticeScreen = () => {
         <>
             <div className="d-flex flex-row justify-content-between py-2 ">
                 <h2>All Notice</h2>
-                <Button
-                    onClick={() => setShowEditNoticeModal(true)}
-                >
-                    <i className="fas fa-plus"></i>  Add Notice
+                {userInfo && userInfo.isAdmin &&
+                    <Button
+                        onClick={() => setShowEditNoticeModal(true)}
+                    >
+                        <i className="fas fa-plus"></i>  Add Notice
             </Button>
+                }
             </div>
 
             {loading ? (
@@ -66,6 +68,9 @@ const NoticeScreen = () => {
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <>
+                    {createError && <Message variant='danger'>{createError}</Message>}
+                    {editError && <Message variant='danger'>{editError}</Message>}
+                    {deleteError && <Message variant='danger'>{deleteError}</Message>}
                     <Table striped bordered hover responsive className='table-sm'>
                         <thead>
                             <tr>
@@ -77,7 +82,7 @@ const NoticeScreen = () => {
                         </thead>
                         <tbody>
                             {notices.map((notice, index) => (
-                                <tr  >
+                                <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td
                                         role="button" key={notice._id} onClick={() => {
@@ -126,7 +131,6 @@ const NoticeScreen = () => {
                                 setFootnote('')
                                 setShow(false)
                             }}
-                            centered
                             keyboard={false}>
                             <ModalHeader closeButton>
                                 <ModalTitle>{notices[noticeIndex].title}</ModalTitle>

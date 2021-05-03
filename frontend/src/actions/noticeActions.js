@@ -59,7 +59,7 @@ export const editNotice = (id, title, body, footnote) => async (dispatch, getSta
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        await axios.post(`/api/notices/${id}`, { title, body, footnote }, config)
+        await axios.put(`/api/notices/${id}`, { title, body, footnote }, config)
 
         dispatch({
             type: NOTICE_EDIT_SUCCESS,

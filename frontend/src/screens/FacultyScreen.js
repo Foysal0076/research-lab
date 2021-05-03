@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, FormControl, ListGroup, ListGroupItem, Row } from 'react-bootstrap'
+import { Button, Form, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFacultyList } from '../actions/facultyActions'
 import Faculty from '../components/Faculty'
 import Loader from '../components/layout/Loader'
 import Message from '../components/layout/Message'
-
 
 const FacultyScreen = () => {
     const dispatch = useDispatch()
@@ -15,7 +14,7 @@ const FacultyScreen = () => {
 
     useEffect(() => {
         dispatch(getFacultyList(keyword))
-    }, [dispatch])
+    }, [dispatch, keyword])
 
     const onSearchChangeHandler = ((e) => {
         setKeyword(e.target.value)
@@ -47,7 +46,7 @@ const FacultyScreen = () => {
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5">
-                    {faculty.map((member, index) => (
+                    {faculty && faculty.map((member, index) => (
                         <div className="col" key={index}>
                             <Faculty member={member} />
                         </div>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, CardImg, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { LinkContainer } from 'react-router-bootstrap'
+import truncateString from '../utils/truncateString'
 
 const Faculty = ({ member }) => {
 
@@ -13,10 +13,10 @@ const Faculty = ({ member }) => {
                         <CardImg src={member.image} />
                     </Link>
                     <Link to={`/faculty/${member._id}`}>
-                        <h6 className='p-1 mb-0' > <strong>{member.name}</strong> </h6>
+                        <h6 className='p-1 mb-0' > <strong>{ truncateString(member.name, 20) }</strong> </h6>
                     </Link>
                     <p style={{ fontSize: '.7rem' }} className=" text-primary mb-1">{member.occupationalDesignation}</p>
-                    <p style={{ fontSize: '.7rem' }} className="text-muted mb-1"> {member.workPlace} </p>
+                    <p style={{ fontSize: '.7rem' }} className="text-muted mb-1"> { truncateString(member.workPlace,33) } </p>
                     <button type='button' data-target={'#a' + member._id} className="btn btn-outline-primary w-100 mb-1 btn-sm" data-toggle='collapse' aria-expanded="false"> Research Interest</button>
                     <div className="collapse" id={`a${member._id}`}>
                         {member.researchInterests && member.researchInterests.length !== 0 &&

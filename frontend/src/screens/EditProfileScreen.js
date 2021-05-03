@@ -5,8 +5,8 @@ import { editFacultyProfile, getFacultyProfileByUserId } from '../actions/facult
 import FormContainer from '../components/layout/FormContainer'
 import Loader from '../components/layout/Loader'
 import Message from '../components/layout/Message'
-import { FACULTY_PROFILE_EDIT_RESET } from '../actions/types'
 import axios from 'axios'
+import moment from 'moment'
 
 const EditProfileScreen = ({ history, match }) => {
     const dispatch = useDispatch()
@@ -47,7 +47,7 @@ const EditProfileScreen = ({ history, match }) => {
 
     const uploadFileHandler = async (e) => {
         e.preventDefault()
-        console.log('clicked')
+
         const file = e.target.files[0]
         const formData = new FormData()
         formData.append('file', file)
@@ -74,9 +74,8 @@ const EditProfileScreen = ({ history, match }) => {
             if (editSuccess) {
                 if (userInfo && userInfo.isAdmin) {
                     history.push(`/admin/users/profiles/${match.params.id}`)
-                    dispatch({ type: FACULTY_PROFILE_EDIT_RESET })
                 } else {
-                    history.push(`/profile/${match.params.id}`)
+                    history.push(`/profile`)
                 }
             } else {
                 if (!profile || profile.user !== match.params.id) {
@@ -108,7 +107,7 @@ const EditProfileScreen = ({ history, match }) => {
         } else {
             history.push('/login')
         }
-    }, [dispatch, editSuccess, match.params.id, profile, userInfo])
+    }, [dispatch, editSuccess, match.params.id, profile, userInfo, history])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -377,7 +376,7 @@ const EditProfileScreen = ({ history, match }) => {
                                 <FormLabel>JoiningDate</FormLabel>
                                 <FormControl
                                     type='date'
-                                    value={joiningDate}
+                                    value={moment(joiningDate).format('yyyy-MM-DD')}
                                     onChange={(e) => setJoiningDate(e.target.value)}
                                 ></FormControl>
                             </FormGroup>
@@ -392,6 +391,7 @@ const EditProfileScreen = ({ history, match }) => {
                                     as='textarea'
                                     placeholder='This will be highlighted on user profile'
                                     value={intro}
+                                    rows={5}
                                     onChange={(e) => setIntro(e.target.value)}
                                     required
                                 ></FormControl>
@@ -417,7 +417,7 @@ const EditProfileScreen = ({ history, match }) => {
                         </Card.Body>
                     </Card>
 
-                    <Button type='submit' variant='outline-primary' block>Submit</Button>
+                    <Button type='submit' variant='outline-primary' block>Update</Button>
                 </Form>
             </FormContainer>
         </div>

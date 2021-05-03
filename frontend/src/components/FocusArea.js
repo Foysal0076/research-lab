@@ -13,7 +13,7 @@ const FocusArea = () => {
             <div className="d-flex align-items-center align-self-center">
               <div className="text-resp">
                 <h1 className="display-2 mt-5 pt-5 text-capitalize  ">Artificial Intelligence</h1>
-                <p classNameName='first-para c-margin-top' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos corrupti voluptate, alias illo quasi nam molestias cumque debitis delectus qui maiores quibusdam tempora! Totam similique labore autem, earum repudiandae inventore necessitatibus iusto, vitae explicabo accusamus ipsam quae, laborum alias sit amet cumque natus reprehenderit provident obcaecati itaque modi voluptate. Eligendi.</p>
+                <p className='first-para c-margin-top' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos corrupti voluptate, alias illo quasi nam molestias cumque debitis delectus qui maiores quibusdam tempora! Totam similique labore autem, earum repudiandae inventore necessitatibus iusto, vitae explicabo accusamus ipsam quae, laborum alias sit amet cumque natus reprehenderit provident obcaecati itaque modi voluptate. Eligendi.</p>
               </div>
             </div>
           </div>

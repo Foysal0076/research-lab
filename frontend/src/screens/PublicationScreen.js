@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, Form, FormCheck, FormControl, FormGroup, Row } from 'react-bootstrap'
+import { Button, Card, Col, Form, FormCheck, FormControl, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPublications } from '../actions/publicationActions'
 import Loader from '../components/layout/Loader'
@@ -7,7 +7,7 @@ import Message from '../components/layout/Message'
 import PublicationsTable from '../components/PublicationsTable'
 
 
-const PublicationScreen = ({history}) => {
+const PublicationScreen = ({ history }) => {
     const dispatch = useDispatch()
     const [keyword, setKeyword] = useState('')
     const [filters, setFilters] = useState([])
@@ -19,12 +19,12 @@ const PublicationScreen = ({history}) => {
     const [patentCheck, setPatentCheck] = useState(false)
 
 
-    const {userInfo} = useSelector(state=> state.userLogin)
+    const { userInfo } = useSelector(state => state.userLogin)
     const { loading, error, publications } = useSelector(state => state.publicationList)
 
     useEffect(() => {
         dispatch(getPublications(keyword, filters))
-    }, [dispatch, filters])
+    }, [dispatch, filters, keyword])
 
     const handleCheckboxChange = (e) => {
         if (e.target.checked) {
@@ -70,11 +70,11 @@ const PublicationScreen = ({history}) => {
                             <Button
                                 variant='outline-primary'
                                 onClick={() => history.push('/admin/publications/add-publication')}
-                                >
-                                    <i className="fas fa-plus"></i>
-                                    {' '}Add Publication
-                                </Button>
-                    )}
+                            >
+                                <i className="fas fa-plus"></i>
+                                {' '}Add Publication
+                            </Button>
+                        )}
                     </div>
                     <Card className='py-2'>
                         <Card.Body className='p-2' >
@@ -163,7 +163,9 @@ const PublicationScreen = ({history}) => {
                             </Row>
                         </Card.Body>
                     </Card>
-                    <PublicationsTable publications={publications} />
+                    { publications.length === 0 ? <h5>No Publication Found</h5> : (
+                        <PublicationsTable publications={publications} />
+                    )}
                 </>
             )}
         </>

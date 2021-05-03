@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, FormCheck } from 'react-bootstrap'
+import { Button, Card, Form, FormCheck } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_EDIT_INFO_RESET } from '../actions/types'
 import { editUserInfo, getUserInfo } from '../actions/userActions'
@@ -52,64 +52,69 @@ const EditUserScreen = ({ match, history }) => {
 
     return (
         <FormContainer>
-            <h1>Edit User Info</h1>
+            {loading && <Loader />}
             {message && <Message variant='danger'>{message}</Message>}
-            {/* {error && <Message variant='danger'>{error}</Message>}
-            {loading && <Loader />} */}
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type='name'
-                        placeholder='Enter name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
+            {error ? <Message variant='danger'>{error}</Message> : editLoading ? <Loader /> : editError ? <Message variant='danger'>{editError}</Message> : (
+                <Card className='my-2' >
+                    <Card.Body>
+                        <h1 className='text-center' >Edit User</h1>
+                        <Form onSubmit={submitHandler}>
+                            <Form.Group controlId='name'>
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type='name'
+                                    placeholder='Enter name'
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                ></Form.Control>
+                            </Form.Group>
 
-                <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Enter email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
+                            <Form.Group controlId='email'>
+                                <Form.Label>Email Address</Form.Label>
+                                <Form.Control
+                                    type='email'
+                                    placeholder='Enter email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                ></Form.Control>
+                            </Form.Group>
 
-                <Form.Group controlId='password'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Enter password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
+                            <Form.Group controlId='password'>
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type='password'
+                                    placeholder='Enter password'
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                ></Form.Control>
+                            </Form.Group>
 
-                <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Confirm password'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                {userInfo && userInfo.isAdmin && (
-                    <FormCheck
-                        className='mb-4'
-                        type='checkbox'
-                        label='Admin'
-                        checked={isAdmin}
-                        onChange={(e) => setIsAdmin(e.target.checked)}
-                    ></FormCheck>
-                )}
+                            <Form.Group controlId='confirmPassword'>
+                                <Form.Label>Confirm Password</Form.Label>
+                                <Form.Control
+                                    type='password'
+                                    placeholder='Confirm password'
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                ></Form.Control>
+                            </Form.Group>
+                            {userInfo && userInfo.isAdmin && (
+                                <FormCheck
+                                    className='mb-4'
+                                    type='checkbox'
+                                    label='Admin'
+                                    checked={isAdmin}
+                                    onChange={(e) => setIsAdmin(e.target.checked)}
+                                ></FormCheck>
+                            )}
 
-                <Button type='submit' variant='outline-primary' block>
-                    Submit
+                            <Button type='submit' variant='outline-primary' block>
+                                Update
                 </Button>
-            </Form>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            )}
         </FormContainer>
     )
 }

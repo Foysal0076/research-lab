@@ -27,7 +27,7 @@ import EditPublicationsScreen from './screens/admin/EditPublicationScreen'
 function App() {
     return (
         <Router>
-            <main style={{ backgroundImage: `url(${bg1})` }} >
+            <main className='bg-light' style={{ backgroundImage: `url(${bg1})` }} >
                 <div id='content-wrap' >
                     <Header />
                     <Container>
@@ -40,6 +40,7 @@ function App() {
                         <Route exact path='/noticeboard' component={NoticeScreen} />
                         <Route exact path='/contact' component={ContactScreen} />
                         <Route exact path='/profile' component={ProfileScreen} />
+                        <Route exact path='/profile/:id/edit' component={EditProfileScreen} />
                         <Route exact path='/profile/:userId/create-profile' component={CreateFacultyProfile} />
                         <Route exact path='/admin/users/profiles/:userId' component={ProfileScreen} />
                         <Route exact path='/admin/notice' component={NoticeScreen} />

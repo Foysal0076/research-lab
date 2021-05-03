@@ -24,10 +24,9 @@ const Notice = ({ notices }) => {
                 <Modal
                     show={show}
                     onHide={() => setShow(false)}
-                    centered
                     keyboard={false}
                 >
-                    <ModalHeader closeButton>
+                    <ModalHeader closeButton className='bg-primary' >
                         <ModalTitle>{notices[noticeIndex].title}</ModalTitle>
                     </ModalHeader>
                     <ModalBody>{<p>{notices[noticeIndex].body}</p>}</ModalBody>

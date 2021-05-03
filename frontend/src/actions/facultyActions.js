@@ -16,7 +16,7 @@ export const getFacultyList = (keyword = '') => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FACULTY_FAIL,
-            payload: error.respons && error.response.data.message ? error.response.data.message : error.message
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 
@@ -36,7 +36,7 @@ export const getFacultyDetails = (memberId) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FACULTY_DETAILS_FAIL,
-            payload: error.respons && error.response.data.message ? error.response.data.message : error.message
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 }
@@ -60,7 +60,7 @@ export const getFacultyProfileByUserId = (userId) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FACULTY_PROFILE_FAIL,
-            payload: error.response.data.message || error.response && error.response.data.message && error.response.data.message
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 
@@ -88,7 +88,7 @@ export const createFacultyProfile = (profile, id) => async (dispatch, getState) 
     } catch (error) {
         dispatch({
             type: FACULTY_PROFILE_CREATE_FAIL,
-            payload: error.response.data.message || error.response && error.response.data.message && error.response.data.message
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 
@@ -117,7 +117,7 @@ export const editFacultyProfile = (profile, id) => async (dispatch, getState) =>
     } catch (error) {
         dispatch({
             type: FACULTY_PROFILE_EDIT_FAIL,
-            payload: error.response.data.message || error.response && error.response.data.message && error.response.data.message
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 

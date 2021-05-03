@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Form, FormControl, FormFile, FormGroup, FormLabel, FormText } from 'react-bootstrap'
+import { Button, Card, Form, FormControl, FormGroup, FormLabel, FormText } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { createFacultyProfile } from '../../actions/facultyActions'
 import FormContainer from '../../components/layout/FormContainer'
@@ -49,7 +49,7 @@ const CreateFacultyProfile = ({ history, match }) => {
             window.history.back()
             dispatch({ type: FACULTY_PROFILE_CREATE_RESET })
         }
-    }, [success])
+    }, [success,dispatch])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]

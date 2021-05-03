@@ -45,6 +45,8 @@ const editNotice = asyncHandler(async (req, res) => {
         notice.title = title || notice.title
         notice.body = body || notice.body
         notice.footnote = footnote || notice.footnote
+    } else {
+        throw new ErrorResponse(`Notice not found with id ${req.params.id}`, 404)
     }
     const editedNotice = await notice.save()
 
