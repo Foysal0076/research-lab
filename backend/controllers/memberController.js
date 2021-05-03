@@ -137,29 +137,37 @@ const createMember = asyncHandler(async (req, res, next) => {
 //@desc     update member /profile
 //@access   Private, Admin
 const updateMember = asyncHandler(async (req, res, next) => {
-    const { name, email, gender, joiningDate, type, intro, occupationalDesignation, workPlace, labDesignation, researchInterests, image, publications, address, social, mobile } = req.body
+    const { name, email, gender, joiningDate, type, intro, occupationalDesignation, workPlace, labDesignation, researchInterests, image, publications, address, social, mobile, publicationId } = req.body
 
     const member = await Member.findOne({ user: req.params.id })
+    const keyword = req.query.keyword
 
     if (member) {
-        member.name = name || member.name
-        member.email = email || member.email
-        member.gender = gender || member.gender
-        member.joiningDate = joiningDate || member.joiningDate
-        member.type = type || member.type
-        member.intro = intro || member.intro
-        member.occupationalDesignation = occupationalDesignation || member.occupationalDesignation
-        member.workPlace = workPlace || member.workPlace
-        member.labDesignation = labDesignation || member.labDesignation
-        member.researchInterests = researchInterests || member.researchInterests
-        member.image = image || member.image
-        member.publications = publications || member.publications
-        member.address = address || member.address
-        member.social = social || member.social
-        member.mobile = mobile || member.mobile
-
+        if (publicationId) {
+            if (keyword && keyword === 'remove') {
+                member.publications = member.publications.filter(item => item != publicationId)
+            } else {
+                member.publications.indexOf(publicationId) === -1 ? member.publications.push(publicationId) : res.json({ message: 'Author already exists' })
+            }
+        } else {
+            member.name = name || member.name
+            member.email = email || member.email
+            member.gender = gender || member.gender
+            member.joiningDate = joiningDate || member.joiningDate
+            member.type = type || member.type
+            member.intro = intro || member.intro
+            member.occupationalDesignation = occupationalDesignation || member.occupationalDesignation
+            member.workPlace = workPlace || member.workPlace
+            member.labDesignation = labDesignation || member.labDesignation
+            member.researchInterests = researchInterests || member.researchInterests
+            member.image = image || member.image
+            member.publications = publications || member.publications
+            member.address = address || member.address
+            member.social = social || member.social
+            member.mobile = mobile || member.mobile
+        }
         const updatedMember = await member.save()
-        if (updateMember) {
+        if (updatedMember) {
             res.status(201).json(updatedMember)
         }
     } else {

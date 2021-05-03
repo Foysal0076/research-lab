@@ -5,6 +5,8 @@ import { createFacultyProfile } from '../../actions/facultyActions'
 import FormContainer from '../../components/layout/FormContainer'
 import Loader from '../../components/layout/Loader'
 import Message from '../../components/layout/Message'
+import axios from 'axios'
+import { FACULTY_PROFILE_CREATE_RESET } from '../../actions/types'
 
 const CreateFacultyProfile = ({ history, match }) => {
     const dispatch = useDispatch()
@@ -36,15 +38,41 @@ const CreateFacultyProfile = ({ history, match }) => {
     const [joiningDate, setJoiningDate] = useState('')
     const [image, setImage] = useState('')
     const [intro, setIntro] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     const { loading, error, success } = useSelector(state => state.facultyProfileCreate)
-    
+    const { userInfo } = useSelector(state => state.userLogin)
+
 
     useEffect(() => {
         if (success) {
-            history.push(`/profile/${match.parmas.id}`)
+            window.history.back()
+            dispatch({ type: FACULTY_PROFILE_CREATE_RESET })
         }
     }, [success])
+
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('file', file)
+        setUploading(true)
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${userInfo.token}`
+                },
+            }
+            const { data: { filePath } } = await axios.post('/api/upload', formData, config)
+
+            setImage(filePath)
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+        }
+    }
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -80,10 +108,6 @@ const CreateFacultyProfile = ({ history, match }) => {
         dispatch(createFacultyProfile(newProfile, match.params.userId))
     }
 
-    const uploadFileHandler = () => {
-        setImage('/images/maleProfile.png')
-    }
-
     return (
 
         <div className='py-4'>
@@ -94,263 +118,286 @@ const CreateFacultyProfile = ({ history, match }) => {
                 <Form onSubmit={submitHandler} >
                     <Card bg='light' className='mb-2' >
                         <Card.Body>
-                    <p style={headerStyle} className='text-primary' >Personal Information</p>
-                    <FormGroup controlId='name'>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Name'
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
+                            <p style={headerStyle} className='text-primary' >Personal Information</p>
+                            <FormGroup controlId='name'>
+                                <FormLabel>Name</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Name'
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
 
-                    <FormGroup controlId='email'>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl
-                            type='email'
-                            placeholder='Enter email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
+                            <FormGroup controlId='email'>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl
+                                    type='email'
+                                    placeholder='Enter email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
 
-                    <FormGroup controlId='gender'>
-                        <FormLabel>Gender</FormLabel>
-                        <FormControl
-                            as='select'
-                            value={gender}
-                            onChange={(e) => {
-                                setGender(e.target.value)
-                            }}
-                            required
-                        >
-                            <option value='' >Select Gender...</option>
-                            <option value='Male'>Male</option>
-                            <option value='Female'>Female</option>
-                            <option value='Other'>Other</option>
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='designation'>
-                        <FormLabel>Designation</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Designation'
-                            value={designation}
-                            onChange={(e) => setDesignation(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
+                            <FormGroup controlId='gender'>
+                                <FormLabel>Gender</FormLabel>
+                                <FormControl
+                                    as='select'
+                                    value={gender}
+                                    onChange={(e) => {
+                                        setGender(e.target.value)
+                                    }}
+                                    required
+                                >
+                                    <option value='' >Select Gender...</option>
+                                    <option value='Male'>Male</option>
+                                    <option value='Female'>Female</option>
+                                    <option value='Other'>Other</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='designation'>
+                                <FormLabel>Designation</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Designation'
+                                    value={designation}
+                                    onChange={(e) => setDesignation(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
 
-                    <FormGroup controlId='workplace'>
-                        <FormLabel>WorkPlace</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Company/ Institution'
-                            value={workPlace}
-                            onChange={(e) => setWorkPlace(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='mobile'>
-                        <FormLabel>Mobile</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Mobile'
-                            value={mobile}
-                            onChange={(e) => setMobile(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
+                            <FormGroup controlId='workplace'>
+                                <FormLabel>WorkPlace</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Company/ Institution'
+                                    value={workPlace}
+                                    onChange={(e) => setWorkPlace(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='mobile'>
+                                <FormLabel>Mobile</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Mobile'
+                                    value={mobile}
+                                    onChange={(e) => setMobile(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
                         </Card.Body>
                     </Card>
 
                     <Card bg='light' className='mb-2'>
                         <Card.Body>
-                    <p style={headerStyle} className='text-primary'>Contact Details</p>
-                    <FormGroup controlId='address'>
-                        <FormLabel>Address</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Address'
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='city'>
-                        <FormLabel>City</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter City'
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='postCode'>
-                        <FormLabel>PostCode</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter PostCode'
-                            value={postCode}
-                            onChange={(e) => setPostCode(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='country'>
-                        <FormLabel>Country</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Country'
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
+                            <p style={headerStyle} className='text-primary'>Contact Details</p>
+                            <FormGroup controlId='address'>
+                                <FormLabel>Address</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Address'
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='city'>
+                                <FormLabel>City</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter City'
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='postCode'>
+                                <FormLabel>PostCode</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter PostCode'
+                                    value={postCode}
+                                    onChange={(e) => setPostCode(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='country'>
+                                <FormLabel>Country</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Country'
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
                         </Card.Body>
                     </Card>
                     <Card bg='light' className='mb-2'>
                         <Card.Body>
-                    <p style={headerStyle} className='text-primary'>Social Links</p>
-                    <FormGroup controlId='facebook'>
-                        <FormLabel>Facebook</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Facebook'
-                            value={facebook}
-                            onChange={(e) => setFacebook(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='linkedIn'>
-                        <FormLabel>LinkedIn</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter LinkedIn'
-                            value={linkedIn}
-                            onChange={(e) => setLinkedIn(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='web'>
-                        <FormLabel>Web</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Portfolio/ Web address'
-                            value={web}
-                            onChange={(e) => setWeb(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='researchGate'>
-                        <FormLabel>ResearchGate</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter ResearchGate'
-                            value={researchGate}
-                            onChange={(e) => setResearchGate(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='github'>
-                        <FormLabel>Github</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Github'
-                            value={github}
-                            onChange={(e) => setGithub(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='instagram'>
-                        <FormLabel>Instagram</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Instagram'
-                            value={instagram}
-                            onChange={(e) => setInstagram(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
+                            <p style={headerStyle} className='text-primary'>Social Links</p>
+                            <FormGroup controlId='facebook'>
+                                <FormLabel>Facebook</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Facebook'
+                                    value={facebook}
+                                    onChange={(e) => setFacebook(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='linkedIn'>
+                                <FormLabel>LinkedIn</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter LinkedIn'
+                                    value={linkedIn}
+                                    onChange={(e) => setLinkedIn(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='web'>
+                                <FormLabel>Web</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Portfolio/ Web address'
+                                    value={web}
+                                    onChange={(e) => setWeb(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='researchGate'>
+                                <FormLabel>ResearchGate</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter ResearchGate'
+                                    value={researchGate}
+                                    onChange={(e) => setResearchGate(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='github'>
+                                <FormLabel>Github</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Github'
+                                    value={github}
+                                    onChange={(e) => setGithub(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='instagram'>
+                                <FormLabel>Instagram</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Instagram'
+                                    value={instagram}
+                                    onChange={(e) => setInstagram(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
                         </Card.Body>
                     </Card>
                     <Card bg='light' className='mb-2'>
                         <Card.Body>
 
-                    <p style={headerStyle} className='text-primary'>Lab Details</p>
-                    <FormGroup controlId='labDesignation'>
-                        <FormLabel>Lab Designation</FormLabel>
-                        <FormControl
-                            as='select'
-                            value={labDesignation}
-                            onChange={(e) => setLabDesignation(e.target.value)}
-                            required
-                        >
-                            <option value="">Select Lab Designation..</option>
-                            <option value="Director">Director</option>
-                            <option value="Co-Ordinator">Co-Ordinator</option>
-                            <option value="Member">Member</option>
-                            <option value="Advisor">Advisor</option>
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='type'>
-                        <FormLabel>Type</FormLabel>
-                        <FormControl
-                            as='select'
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                            required
-                        >
-                            <option value="">Select member type..</option>
-                            <option value="Researcher">Researcher</option>
-                            <option value="MS Student">MS Student</option>
-                            <option value="Project Intern">Project Intern</option>
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup controlId='researchInterests'>
-                        <FormLabel>Research Interest</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Enter Research Interests'
-                            value={researchInterests}
-                            onChange={(e) => setResearchInterests(e.target.value)}
-                            required
-                        ></FormControl>
-                        <FormText className="text-warning" >Comma Seperated value. ex: Machine Learning,Bio-Informatics,Data Science</FormText>
-                    </FormGroup>
-                    <FormGroup controlId='joiningDate'>
-                        <FormLabel>JoiningDate</FormLabel>
-                        <FormControl
-                            type='date'
-                            value={joiningDate}
-                            onChange={(e) => setJoiningDate(e.target.value)}
-                        ></FormControl>
-                    </FormGroup>
+                            <p style={headerStyle} className='text-primary'>Lab Details</p>
+                            <FormGroup controlId='labDesignation'>
+                                <FormLabel>Lab Designation</FormLabel>
+                                <FormControl
+                                    as='select'
+                                    value={labDesignation}
+                                    onChange={(e) => setLabDesignation(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Lab Designation..</option>
+                                    <option value="Director">Director</option>
+                                    <option value="Co-Ordinator">Co-Ordinator</option>
+                                    <option value="Member">Member</option>
+                                    <option value="Advisor">Advisor</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='type'>
+                                <FormLabel>Type</FormLabel>
+                                <FormControl
+                                    as='select'
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select member type..</option>
+                                    <option value="Researcher">Researcher</option>
+                                    <option value="MS Student">MS Student</option>
+                                    <option value="Project Intern">Project Intern</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup controlId='researchInterests'>
+                                <FormLabel>Research Interest</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Enter Research Interests'
+                                    value={researchInterests}
+                                    onChange={(e) => setResearchInterests(e.target.value)}
+                                    required
+                                ></FormControl>
+                                <FormText className="text-warning" >Comma Seperated value. ex: Machine Learning,Bio-Informatics,Data Science</FormText>
+                            </FormGroup>
+                            <FormGroup controlId='joiningDate'>
+                                <FormLabel>JoiningDate</FormLabel>
+                                <FormControl
+                                    type='date'
+                                    value={joiningDate}
+                                    onChange={(e) => setJoiningDate(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
                         </Card.Body>
                     </Card>
 
                     <Card bg='light' className='mb-2'>
                         <Card.Body>
-                    <FormGroup controlId='intro'>
-                        <FormLabel>Intro</FormLabel>
-                        <FormControl
-                            as='textarea'
-                            placeholder='This will be highlighted on user profile'
-                            value={intro}
-                            onChange={(e) => setIntro(e.target.value)}
-                            required
-                        ></FormControl>
-                    </FormGroup>
+                            <FormGroup controlId='intro'>
+                                <FormLabel>Intro</FormLabel>
+                                <FormControl
+                                    as='textarea'
+                                    placeholder='This will be highlighted on user profile'
+                                    value={intro}
+                                    onChange={(e) => setIntro(e.target.value)}
+                                    required
+                                ></FormControl>
+                            </FormGroup>
 
-                    <FormGroup controlId='image'>
-                        <FormLabel>Image</FormLabel>
-                        <FormControl
-                            type='text'
-                            placeholder='Image Url'
-                            value={image}
-                            onChange={(e) => setImage(`/images/${e.target.value}.png`)}
-                            required
-                        ></FormControl>
-                        <FormFile
-                            id='image-file'
-                            label='Choose File'
-                            custom
-                            onChange={uploadFileHandler}
-                        ></FormFile>
-                    </FormGroup>
+                            <Form.Group controlId='image'>
+
+                                <Form.Label>Image</Form.Label>
+
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Enter image url'
+                                    value={image}
+                                    onChange={(e) => setImage(e.target.value)}
+                                ></Form.Control>
+
+                                <Form.File
+                                    id='image-file'
+                                    label='Choose File'
+                                    custom
+                                    onChange={uploadFileHandler}
+                                ></Form.File>
+
+                                {uploading && <Loader />}
+
+                            </Form.Group>
+
+                            {/* <FormGroup controlId='image'>
+                                <FormLabel>Image</FormLabel>
+                                <FormControl
+                                    type='text'
+                                    placeholder='Image Url'
+                                    value={image}
+                                    onChange={(e) => setImage(e.target.value)}
+                                    required
+                                ></FormControl>
+                                {uploading && <Loader />}
+                                <FormFile
+                                    id='image-file'
+                                    label='Choose File'
+                                    custom
+                                    onChange={uploadFileHandler}
+                                ></FormFile>
+                            </FormGroup> */}
                         </Card.Body>
                     </Card>
 

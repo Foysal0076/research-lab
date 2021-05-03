@@ -6,7 +6,7 @@ import FormContainer from '../components/layout/FormContainer'
 import Loader from '../components/layout/Loader'
 import Message from '../components/layout/Message'
 import { FACULTY_PROFILE_EDIT_RESET } from '../actions/types'
-
+import axios from 'axios'
 
 const EditProfileScreen = ({ history, match }) => {
     const dispatch = useDispatch()
@@ -38,11 +38,36 @@ const EditProfileScreen = ({ history, match }) => {
     const [joiningDate, setJoiningDate] = useState('')
     const [image, setImage] = useState('')
     const [intro, setIntro] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     const { userInfo } = useSelector(state => state.userLogin)
     const { loading, error, profile } = useSelector(state => state.facultyProfile)
     const { loading: editLoading, error: editError, success: editSuccess } = useSelector(state => state.facultyProfileEdit)
 
+
+    const uploadFileHandler = async (e) => {
+        e.preventDefault()
+        console.log('clicked')
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('file', file)
+        setUploading(true)
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${userInfo.token}`
+                },
+            }
+            const { data } = await axios.post('/api/upload', formData, config)
+            setImage(data.filePath)
+            setUploading(false)
+        } catch (error) {
+            console.error(error)
+            setUploading(false)
+        }
+    }
 
     useEffect(() => {
         if (userInfo) {
@@ -117,11 +142,6 @@ const EditProfileScreen = ({ history, match }) => {
             intro
         }
         dispatch(editFacultyProfile(updateProfile, match.params.id))
-
-    }
-
-    const uploadFileHandler = () => {
-        setImage('/images/maleProfile.png')
     }
 
     return (
@@ -131,7 +151,7 @@ const EditProfileScreen = ({ history, match }) => {
             {editLoading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}
             {editError && <Message variant='danger'>{editError}</Message>}
-            <h2 className='text-center' >Create Faculty Profile</h2>
+            <h2 className='text-center' >Edit Faculty Profile</h2>
             <FormContainer>
                 <Form onSubmit={submitHandler} >
                     <Card bg='light' className='mb-2' >
@@ -383,7 +403,7 @@ const EditProfileScreen = ({ history, match }) => {
                                     type='text'
                                     placeholder='Image Url'
                                     value={image}
-                                    onChange={(e) => setImage(`/images/${e.target.value}.png`)}
+                                    onChange={(e) => setImage(e.target.value)}
                                     required
                                 ></FormControl>
                                 <FormFile
@@ -392,6 +412,7 @@ const EditProfileScreen = ({ history, match }) => {
                                     custom
                                     onChange={uploadFileHandler}
                                 ></FormFile>
+                                {uploading && <Loader />}
                             </FormGroup>
                         </Card.Body>
                     </Card>

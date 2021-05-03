@@ -129,7 +129,8 @@ export const userCreateReducer = (state = {}, action) => {
         case USER_CREATE_SUCCESS:
             return {
                 loading: false,
-                success: true
+                success: true,
+                newUser: action.payload
             }
         case USER_CREATE_FAIL:
             return {

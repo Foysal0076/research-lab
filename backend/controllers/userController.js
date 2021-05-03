@@ -58,8 +58,17 @@ const registerUser = asyncHandler(async (req, res) => {
 //@desc     Fetch all users
 //@access   private/admin
 const getUsers = asyncHandler(async (req, res) => {
-    const user = await User.find({})
+    const keyword = req.query.keyword
+        ? {
+            name: {
+                $regex: req.query.keyword,
+                $options: 'i'
+            }
+        } : {}
+    const user = await User.find({ ...keyword }).select('-password')
+
     res.status(200).json(user)
+
 })
 
 //@route    GET /api/users/id

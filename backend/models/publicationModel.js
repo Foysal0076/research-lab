@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 const publicationSchema = mongoose.Schema({
     title: {
         type: String,
-        requierd: true
+        required: true
     },
     type: {
         type: String,
-        requierd: true
+        required: true
     },
     source: { type: String },
     authors: [
@@ -21,6 +21,8 @@ const publicationSchema = mongoose.Schema({
         required: true,
     },
 
+}, {
+    timestamps: true
 })
 
 const Publication = mongoose.model('Publication', publicationSchema)

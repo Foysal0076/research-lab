@@ -21,14 +21,14 @@ const PublicationsTable = ({ publications }) => {
             <tbody>
                 {publications && publications.length !== 0 && (
                     publications.map((publication, index) => (
-                        <tr key={publication._id} role='button' onClick={() => publication.source && window.open(publication.source)} >
+                        <tr key={publication._id} >
                             <td>{index + 1}</td>
-                            <td>{publication.title}</td>
+                            <td role='button' onClick={() => publication.source && window.open(publication.source)}>{publication.title}</td>
                             <td>{publication.type}</td>
                             <td>{publication.authorNames}</td>
                             {userInfo && userInfo.isAdmin && (
                                 <td>
-                                    <LinkContainer to={`/admin/user/${publication._id}/edit`}>
+                                    <LinkContainer to={`/admin/publications/${publication._id}/edit`}>
                                         <Button variant='light' className='btn-sm'>
                                             <i className='fas fa-edit'></i>
                                         </Button>

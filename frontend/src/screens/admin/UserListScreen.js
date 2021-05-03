@@ -5,32 +5,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/layout/Loader'
 import Message from '../../components/layout/Message'
 import { listUsers } from '../../actions/userActions'
+import { USER_CREATE_RESET } from '../../actions/types'
 
 const UserListScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const { loading, error, users } = useSelector((state) => state.userList)
+    const { success: createUserSuccess } = useSelector((state) => state.userCreate)
 
     const { userInfo } = useSelector((state) => state.userLogin)
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
+            dispatch({ type: USER_CREATE_RESET })
             dispatch(listUsers())
         } else {
             history.push('/login')
         }
-    }, [dispatch, history, userInfo])
+    }, [dispatch, history, userInfo, createUserSuccess])
 
     return (
         <>
-        <div className="d-flex py-2 justify-content-between">
-            <h1>Users</h1>
-            <Button
-            variant='outline-primary'
-            onClick={()=> history.push('/register')}>
-                <i className="fas fa-user-plus"></i> Create User
+            <div className="d-flex py-2 justify-content-between">
+                <h1>Users</h1>
+                <Button
+                    variant='outline-primary'
+                    onClick={() => history.push('/admin/users/create-user')}>
+                    <i className="fas fa-user-plus"></i> Create User
             </Button>
-        </div>
+            </div>
             {loading ? (
                 <Loader />
             ) : error ? (

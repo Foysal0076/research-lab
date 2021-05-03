@@ -38,18 +38,19 @@ export const logout = () => async (dispatch) => {
 
 }
 
-export const listUsers = () => async (dispatch, geState) => {
+export const listUsers = (keyword = '') => async (dispatch, geState) => {
     try {
         dispatch({ type: USER_LIST_REQUEST })
 
         const { userLogin: { userInfo } } = geState()
+
 
         const config = {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        const { data } = await axios.get('/api/users', config)
+        const { data } = await axios.get(`/api/users?keyword=${keyword}`, config)
 
         dispatch({
             type: USER_LIST_SUCCESS,

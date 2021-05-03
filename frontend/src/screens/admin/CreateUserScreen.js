@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../../components/layout/FormContainer'
 import Message from '../../components/layout/Message'
 import Loader from '../../components/layout/Loader'
+import { createUser } from '../../actions/userActions'
 
 const CreateUserScreen = ({ history }) => {
     const [name, setName] = useState('')
@@ -15,17 +16,20 @@ const CreateUserScreen = ({ history }) => {
 
     const dispatch = useDispatch()
 
-    const { loading, error, success } = useSelector((state) => state.userCreate)
-
+    const { loading, error, success, newUser } = useSelector((state) => state.userCreate)
 
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            // dispatch(registerUser(name, email, password))
+            dispatch(createUser(name, email, password))
         }
     }
+
+    useEffect(() => {
+        success && newUser && history.push(`/admin/users/profiles/${newUser._id}`)
+    }, [success, newUser])
 
     return (
         <FormContainer>
@@ -75,18 +79,9 @@ const CreateUserScreen = ({ history }) => {
                 </Form.Group>
 
                 <Button type='submit' variant='primary'>
-                    Register
+                    Create User
         </Button>
             </Form>
-
-            <Row className='py-3'>
-                <Col>
-                    Already Have an Account?{' '}
-                    <Link style={{ fontSize: '1.2rem' }} to='/login'>
-                        Login
-                    </Link>
-                </Col>
-            </Row>
         </FormContainer>
     )
 }

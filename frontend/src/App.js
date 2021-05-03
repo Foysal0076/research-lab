@@ -20,6 +20,8 @@ import EditUserScreen from './screens/EditUserScreen'
 import VisitorMessageScreen from './screens/admin/VisitorMessageScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
 import CreateUserScreen from './screens/admin/CreateUserScreen'
+import AddPublicationsScreen from './screens/admin/AddPublicationsScreen'
+import EditPublicationsScreen from './screens/admin/EditPublicationScreen'
 
 
 function App() {
@@ -38,14 +40,17 @@ function App() {
                         <Route exact path='/noticeboard' component={NoticeScreen} />
                         <Route exact path='/contact' component={ContactScreen} />
                         <Route exact path='/profile' component={ProfileScreen} />
-                        <Route exact path='/admin/users/profiles/:userId' component={ProfileScreen} />
                         <Route exact path='/profile/:userId/create-profile' component={CreateFacultyProfile} />
+                        <Route exact path='/admin/users/profiles/:userId' component={ProfileScreen} />
                         <Route exact path='/admin/notice' component={NoticeScreen} />
                         <Route exact path='/admin/visitormessages' component={VisitorMessageScreen} />
                         <Route exact path='/admin/users' component={UserListScreen} />
                         <Route exact path='/admin/users/:id/edit' component={EditUserScreen} />
                         <Route exact path='/admin/users/profiles/:id/edit' component={EditProfileScreen} />
                         <Route exact path='/admin/users/create-user' component={CreateUserScreen} />
+                        <Route exact path='/admin/publications' component={PublicationScreen} />
+                        <Route exact path='/admin/publications/add-publication' component={AddPublicationsScreen} />
+                        <Route exact path='/admin/publications/:id/edit' component={EditPublicationsScreen} />
 
                     </Container>
                     <Route exact path='/focusarea' component={FocusArea} />

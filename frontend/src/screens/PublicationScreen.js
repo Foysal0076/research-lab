@@ -7,7 +7,7 @@ import Message from '../components/layout/Message'
 import PublicationsTable from '../components/PublicationsTable'
 
 
-const PublicationScreen = () => {
+const PublicationScreen = ({history}) => {
     const dispatch = useDispatch()
     const [keyword, setKeyword] = useState('')
     const [filters, setFilters] = useState([])
@@ -19,7 +19,7 @@ const PublicationScreen = () => {
     const [patentCheck, setPatentCheck] = useState(false)
 
 
-
+    const {userInfo} = useSelector(state=> state.userLogin)
     const { loading, error, publications } = useSelector(state => state.publicationList)
 
     useEffect(() => {
@@ -64,7 +64,18 @@ const PublicationScreen = () => {
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <>
-                    <h2>Publications</h2>
+                    <div className="d-flex py-2 justify-content-between">
+                        <h2>Publications</h2>
+                        {userInfo && userInfo.isAdmin && (
+                            <Button
+                                variant='outline-primary'
+                                onClick={() => history.push('/admin/publications/add-publication')}
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    {' '}Add Publication
+                                </Button>
+                    )}
+                    </div>
                     <Card className='py-2'>
                         <Card.Body className='p-2' >
                             <h4>Filter</h4>
@@ -86,7 +97,7 @@ const PublicationScreen = () => {
 
                                         <FormCheck
                                             type='checkbox'
-                                            value='Conference'
+                                            value='Conference Paper'
                                             label='Conference'
                                             onChange={(e) => {
                                                 setConferenceCheck(!conferenceCheck)

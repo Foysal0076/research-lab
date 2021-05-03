@@ -4,9 +4,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { userCreateReducer, userEditInfoReducer, userInfoReducer, userListReducer, userLoginReducer, userRegisterReducer } from './reducers/userReducers'
 import { noticeCreateReducer, noticeDeleteReducer, noticeEditReducer, noticeReducer } from './reducers/noticeReducers'
 import { facultyDetailsReducer, facultyListReducer, facultyProfileCreateReducer, facultyProfileEditReducer, facultyProfileReducer } from './reducers/facultyReducers'
-import { publicationReducer } from './reducers/publicationReducers'
+import { AuthorPubLinkReducer, AuthorPubRemoveLinkReducer, publicationAddReducer, publicationEditReducer, publicationListReducer, publicationReducer } from './reducers/publicationReducers'
 import { visitorMessageDeleteReducer, visitorMessageListReducer, visitorMessageSendReducer } from './reducers/visitorMessageReducers'
-
 const userInfoFromStorage = localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null
@@ -28,7 +27,7 @@ const reducer = combineReducers({
     notice: noticeReducer,
     facultyList: facultyListReducer,
     facultyDetails: facultyDetailsReducer,
-    publicationList: publicationReducer,
+    publicationList: publicationListReducer,
     visitorMessageSend: visitorMessageSendReducer,
     userList: userListReducer,
     userRegister: userRegisterReducer,
@@ -43,6 +42,11 @@ const reducer = combineReducers({
     visitorMessageDelete: visitorMessageDeleteReducer,
     facultyProfileEdit: facultyProfileEditReducer,
     userCreate: userCreateReducer,
+    publicationAdd: publicationAddReducer,
+    publicationEdit: publicationEditReducer,
+    publication: publicationReducer,
+    authorPubLink: AuthorPubLinkReducer,
+    authorPubRemoveLink: AuthorPubRemoveLinkReducer,
 })
 
 const store = createStore(
