@@ -23,7 +23,9 @@ const CreateUserScreen = ({ history }) => {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            dispatch(createUser(name, email, password))
+            password.length < 5
+                ? setMessage('Password must be at least 6 characters')
+                : dispatch(createUser(name, email, password))
         }
     }
 
@@ -42,7 +44,7 @@ const CreateUserScreen = ({ history }) => {
                 <FormContainer>
                     <Card className='bg-light shadow' >
                         <Card.Body>
-                            <h1 className='text-center' >Sign Up</h1>
+                            <h1 className='text-center' >Create User</h1>
                             {message && <Message variant='danger'>{message}</Message>}
                             {error && <Message variant='danger'>{error}</Message>}
                             <Form onSubmit={submitHandler}>
@@ -52,6 +54,7 @@ const CreateUserScreen = ({ history }) => {
                                         type='name'
                                         placeholder='Enter name'
                                         value={name}
+                                        required
                                         onChange={(e) => setName(e.target.value)}
                                     ></Form.Control>
                                 </Form.Group>
@@ -62,6 +65,7 @@ const CreateUserScreen = ({ history }) => {
                                         type='email'
                                         placeholder='Enter email'
                                         value={email}
+                                        required
                                         onChange={(e) => setEmail(e.target.value)}
                                     ></Form.Control>
                                 </Form.Group>

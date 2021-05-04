@@ -418,6 +418,7 @@ const EditProfileScreen = ({ history, match }) => {
                                     custom
                                     onChange={uploadFileHandler}
                                 ></FormFile>
+                                <FormText style={{color:'orange'}} >width × height: 500px × 600px</FormText>
                                 {uploading && <Loader />}
                             </FormGroup>
                         </Card.Body>

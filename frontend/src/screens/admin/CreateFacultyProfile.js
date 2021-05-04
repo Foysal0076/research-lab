@@ -361,50 +361,28 @@ const CreateFacultyProfile = ({ history, match }) => {
                                     onChange={(e) => setIntro(e.target.value)}
                                     required
                                 ></FormControl>
+
                             </FormGroup>
 
                             <Form.Group controlId='image'>
-
                                 <Form.Label>Image</Form.Label>
-
                                 <Form.Control
                                     type='text'
                                     placeholder='Enter image url'
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
                                 ></Form.Control>
-
                                 <Form.File
                                     id='image-file'
                                     label='Choose File'
                                     custom
                                     onChange={uploadFileHandler}
                                 ></Form.File>
-
+                                <FormText style={{ color: 'orange' }}>width × height: 500px × 600px</FormText>
                                 {uploading && <Loader />}
-
                             </Form.Group>
-
-                            {/* <FormGroup controlId='image'>
-                                <FormLabel>Image</FormLabel>
-                                <FormControl
-                                    type='text'
-                                    placeholder='Image Url'
-                                    value={image}
-                                    onChange={(e) => setImage(e.target.value)}
-                                    required
-                                ></FormControl>
-                                {uploading && <Loader />}
-                                <FormFile
-                                    id='image-file'
-                                    label='Choose File'
-                                    custom
-                                    onChange={uploadFileHandler}
-                                ></FormFile>
-                            </FormGroup> */}
                         </Card.Body>
                     </Card>
-
                     <Button type='submit' variant='outline-primary' block>Submit</Button>
                 </Form>
             </FormContainer>
