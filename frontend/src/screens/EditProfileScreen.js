@@ -98,7 +98,8 @@ const EditProfileScreen = ({ history, match }) => {
                     setWeb(profile.social.web)
                     setLabDesignation(profile.labDesignation)
                     setType(profile.type)
-                    setResearchInterests(profile.researchInterests)
+                    setResearchInterests(profile.researchInterests.join(","))
+                    console.log(researchInterests)
                     setJoiningDate(profile.joiningDate)
                     setImage(profile.image)
                     setIntro(profile.intro)
@@ -146,6 +147,11 @@ const EditProfileScreen = ({ history, match }) => {
     return (
 
         <div className='py-4'>
+            <Button
+                variant='outline-primary'
+                className='my-2'
+                onClick={() => userInfo && userInfo.isAdmin ? history.push(`/admin/users/profiles/${match.params.id}`) : history.push('/profile')}
+            > <i className="fas fa-arrow-left"></i> Go Back</Button>
             {loading && <Loader />}
             {editLoading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}

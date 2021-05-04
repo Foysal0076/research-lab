@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, Form, FormCheck, FormControl, Row } from 'react-bootstrap'
+import { Button, Card, Col, Form, FormCheck, FormControl, InputGroup, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPublications } from '../actions/publicationActions'
 import Loader from '../components/layout/Loader'
@@ -45,17 +45,22 @@ const PublicationScreen = ({ history }) => {
     }
 
     return (
-        <>
+        <div>
             <Form className='py-4 w-100' onSubmit={onSubmitHandler}>
                 <div className="d-flex mx-2">
-                    <FormControl
-                        type='text'
-                        name='q'
-                        onChange={onChangeHandler}
-                        value={keyword}
-                        placeholder='Search Publications...'
-                    ></FormControl>
-                    <Button type='submit' variant='outline-success' className=''>Search</Button>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text> <i style={{ color: '#008cba' }} className="fas fa-search"></i> </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            type='text'
+                            name='q'
+                            onChange={onChangeHandler}
+                            value={keyword}
+                            placeholder='Search Publications...'
+                        ></FormControl>
+                    </InputGroup>
+                    <Button type='submit' variant='outline-primary' className=''>Search</Button>
                 </div>
             </Form>
             {loading ? (
@@ -168,7 +173,7 @@ const PublicationScreen = ({ history }) => {
                     )}
                 </>
             )}
-        </>
+        </div>
     )
 }
 

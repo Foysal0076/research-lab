@@ -1,31 +1,57 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, InputGroup, FormControl, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/layout/Loader'
 import Message from '../../components/layout/Message'
 import { listUsers } from '../../actions/userActions'
-import { USER_CREATE_RESET } from '../../actions/types'
+import moment from 'moment'
 
 const UserListScreen = ({ history }) => {
     const dispatch = useDispatch()
+    const [keyword, setKeyword] = useState('')
 
     const { loading, error, users } = useSelector((state) => state.userList)
-    const { success: createUserSuccess } = useSelector((state) => state.userCreate)
 
     const { userInfo } = useSelector((state) => state.userLogin)
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
-            dispatch({ type: USER_CREATE_RESET })
             dispatch(listUsers())
         } else {
             history.push('/login')
         }
-    }, [dispatch, history, userInfo, createUserSuccess])
+    }, [dispatch, history, userInfo])
+
+    const onChangeHandler = ((e) => {
+        setKeyword(e.target.value)
+        // dispatch(listUsers(keyword))
+    })
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault()
+        dispatch(listUsers(keyword))
+    }
 
     return (
         <>
+            <Form className='py-4 w-100' onSubmit={onSubmitHandler}>
+                <div className="d-flex mx-2">
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text> <i style={{ color: '#008cba' }} className="fas fa-search"></i> </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            type='text'
+                            name='q'
+                            onChange={onChangeHandler}
+                            value={keyword}
+                            placeholder='Search Users...'
+                        ></FormControl>
+                    </InputGroup>
+                    <Button type='submit' variant='outline-primary' className=''>Search</Button>
+                </div>
+            </Form>
             <div className="d-flex py-2 justify-content-between">
                 <h1>Users</h1>
                 <Button
@@ -40,11 +66,11 @@ const UserListScreen = ({ history }) => {
                 <Message variant='danger'>{error}</Message>
             ) : (
                 <Table striped bordered hover responsive className='table-sm'>
-                    <thead>
+                    <thead className='table-dark'>
                         <tr>
-                            <th>ID</th>
                             <th>NAME</th>
                             <th>EMAIL</th>
+                            <th>DATE</th>
                             <th>ADMIN</th>
                             <th></th>
                         </tr>
@@ -52,11 +78,11 @@ const UserListScreen = ({ history }) => {
                     <tbody>
                         {users && users.length !== 0 && users.map((user) => (
                             <tr key={user._id}>
-                                <td>{user._id}</td>
                                 <td>{user.name}</td>
                                 <td>
                                     <a href={`mailto:${user.email}`}>{user.email}</a>
                                 </td>
+                                <td> {moment(user.createdAt).format('DD-MM-YY')} </td>
                                 <td>
                                     {user.isAdmin ? (
                                         <i className='fas fa-check' style={{ color: 'green' }}></i>

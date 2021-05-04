@@ -6,36 +6,47 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Loader from '../components/layout/Loader'
 // import Message from '../components/layout/Message'
 import PublicationsTable from '../components/PublicationsTable'
-import { FACULTY_PROFILE_EDIT_RESET } from '../actions/types'
+import { FACULTY_PROFILE_CREATE_RESET, FACULTY_PROFILE_EDIT_RESET, USER_CREATE_RESET, USER_EDIT_INFO_RESET } from '../actions/types'
 const ProfileScreen = ({ match, history }) => {
 
     const dispatch = useDispatch()
     const { loading, profile } = useSelector(state => state.facultyProfile)
     const { userInfo } = useSelector(state => state.userLogin)
     const { success: facultyEditSuccess } = useSelector(state => state.facultyProfileEdit)
+    const { success: facultyCreateSuccess } = useSelector(state => state.facultyProfileCreate)
+    const { success: userCreateSuccess } = useSelector(state => state.userCreate)
+    const { success: userEditSuccess } = useSelector(state => state.userEdit)
 
     const id = match.params.userId ? match.params.userId : userInfo ? userInfo._id : null
 
     useEffect(() => {
         if (userInfo) {
             dispatch(getFacultyProfileByUserId(id))
-            if (facultyEditSuccess) {
-                dispatch({ type: FACULTY_PROFILE_EDIT_RESET })
-            }
+            facultyCreateSuccess
+                ? dispatch({ type: FACULTY_PROFILE_CREATE_RESET })
+                : facultyEditSuccess && dispatch({ type: FACULTY_PROFILE_EDIT_RESET })
+            userCreateSuccess
+                ? dispatch({ type: USER_CREATE_RESET })
+                : userEditSuccess && dispatch({ type: USER_EDIT_INFO_RESET })
         } else {
             history.push('/login')
         }
-    }, [dispatch, id, match.params.userId, facultyEditSuccess, userInfo, history])
+    }, [dispatch, id, match.params.userId, facultyEditSuccess, facultyCreateSuccess, userInfo, history, userEditSuccess, userCreateSuccess])
 
     return (
-        <div>
+        <div className='py-2 py-2'>
+            <Button
+                variant='outline-primary'
+                className='my-2'
+                onClick={() => history.push('/admin/users')}
+            > <i className="fas fa-arrow-left"></i> Go Back</Button>
             {loading ? <Loader /> : (
-                <>
+                <div>
                     {!profile && userInfo && !userInfo.isAdmin ? (
                         <p>You do not have a profile. Please request an admin to create your profile</p>
                     ) : !profile && userInfo && userInfo.isAdmin ? (
                         <>
-                            <h4>No profile found. How about creating one...</h4>
+                            <h4 className='pt-3' >New User! How about creating a profile...</h4>
                             <LinkContainer to={`/profile/${id}/create-profile`}>
                                 <Button variant='primary' > Create Profile</Button>
                             </LinkContainer>
@@ -50,6 +61,7 @@ const ProfileScreen = ({ match, history }) => {
                                                 <h1>{profile.name}</h1>
                                                 <Button
                                                     variant='outline-primary'
+                                                    className='btn-sm'
                                                     onClick={() => {
                                                         userInfo && !userInfo.isAdmin
                                                             ? history.push(`/profile/${userInfo._id}/edit`)
@@ -107,7 +119,7 @@ const ProfileScreen = ({ match, history }) => {
                                     </Row>
                                 </Card.Body>
                             </Card>
-                            <Card>
+                            <Card className='my-2 shadow' >
                                 <Card.Body>
                                     <Card.Title>
                                         <h4>Research Interest</h4>
@@ -121,18 +133,21 @@ const ProfileScreen = ({ match, history }) => {
                                     }
                                 </Card.Body>
                             </Card>
-                            <Card>
+                            <Card className='my-2 shadow'>
                                 <Card.Body>
                                     <Card.Title>
                                         <h4>Publications</h4>
                                     </Card.Title>
-                                    <PublicationsTable publications={profile.publications} />
+                                    {profile.publications.length > 0
+                                        ? <PublicationsTable publications={profile.publications} />
+                                        : <h6>{`${profile.name} has no publication yet`}</h6>
+                                    }
                                 </Card.Body>
                             </Card>
 
                         </div>
                     )}
-                </>
+                </div>
 
             )}
 

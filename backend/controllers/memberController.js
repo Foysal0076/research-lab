@@ -159,7 +159,7 @@ const updateMember = asyncHandler(async (req, res, next) => {
             member.occupationalDesignation = occupationalDesignation || member.occupationalDesignation
             member.workPlace = workPlace || member.workPlace
             member.labDesignation = labDesignation || member.labDesignation
-            member.researchInterests = researchInterests || member.researchInterests
+            member.researchInterests = researchInterests.split(',') || member.researchInterests
             member.image = image || member.image
             member.publications = publications || member.publications
             member.address = address || member.address

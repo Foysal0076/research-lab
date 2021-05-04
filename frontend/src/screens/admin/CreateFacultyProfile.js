@@ -43,13 +43,12 @@ const CreateFacultyProfile = ({ history, match }) => {
     const { loading, error, success } = useSelector(state => state.facultyProfileCreate)
     const { userInfo } = useSelector(state => state.userLogin)
 
-
     useEffect(() => {
         if (success) {
             window.history.back()
             dispatch({ type: FACULTY_PROFILE_CREATE_RESET })
         }
-    }, [success,dispatch])
+    }, [success, dispatch])
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
@@ -111,6 +110,11 @@ const CreateFacultyProfile = ({ history, match }) => {
     return (
 
         <div className='py-4'>
+            <Button
+                variant='outline-primary'
+                className='my-2'
+                onClick={() => history.push('/profile')}
+            > <i className="fas fa-arrow-left"></i> Go Back</Button>
             {loading && <Loader />}
             {error && <Message variant='danger'>{error}</Message>}
             <h2 className='text-center' >Create Faculty Profile</h2>

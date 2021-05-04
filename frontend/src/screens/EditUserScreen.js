@@ -24,7 +24,6 @@ const EditUserScreen = ({ match, history }) => {
     const { loading, error, user } = useSelector(state => state.userInfo)
     const { loading: editLoading, error: editError, success: editSuccess } = useSelector(state => state.userEdit)
 
-
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword) {
@@ -51,71 +50,78 @@ const EditUserScreen = ({ match, history }) => {
 
 
     return (
-        <FormContainer>
-            {loading && <Loader />}
-            {message && <Message variant='danger'>{message}</Message>}
-            {error ? <Message variant='danger'>{error}</Message> : editLoading ? <Loader /> : editError ? <Message variant='danger'>{editError}</Message> : (
-                <Card className='my-2' >
-                    <Card.Body>
-                        <h1 className='text-center' >Edit User</h1>
-                        <Form onSubmit={submitHandler}>
-                            <Form.Group controlId='name'>
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control
-                                    type='name'
-                                    placeholder='Enter name'
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                ></Form.Control>
-                            </Form.Group>
+        <div>
+            <Button
+                variant='outline-primary'
+                className='my-2'
+                onClick={() => history.push('/admin/users')}
+            > <i className="fas fa-arrow-left"></i> Go Back</Button>
+            <FormContainer>
+                {loading && <Loader />}
+                {message && <Message variant='danger'>{message}</Message>}
+                {error ? <Message variant='danger'>{error}</Message> : editLoading ? <Loader /> : editError ? <Message variant='danger'>{editError}</Message> : (
+                    <Card className='my-2 bg-light shadow' >
+                        <Card.Body>
+                            <h1 className='text-center' >Edit User</h1>
+                            <Form onSubmit={submitHandler}>
+                                <Form.Group controlId='name'>
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control
+                                        type='name'
+                                        placeholder='Enter name'
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
 
-                            <Form.Group controlId='email'>
-                                <Form.Label>Email Address</Form.Label>
-                                <Form.Control
-                                    type='email'
-                                    placeholder='Enter email'
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                ></Form.Control>
-                            </Form.Group>
+                                <Form.Group controlId='email'>
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type='email'
+                                        placeholder='Enter email'
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
 
-                            <Form.Group controlId='password'>
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type='password'
-                                    placeholder='Enter password'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                ></Form.Control>
-                            </Form.Group>
+                                <Form.Group controlId='password'>
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type='password'
+                                        placeholder='Enter password'
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
 
-                            <Form.Group controlId='confirmPassword'>
-                                <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control
-                                    type='password'
-                                    placeholder='Confirm password'
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                ></Form.Control>
-                            </Form.Group>
-                            {userInfo && userInfo.isAdmin && (
-                                <FormCheck
-                                    className='mb-4'
-                                    type='checkbox'
-                                    label='Admin'
-                                    checked={isAdmin}
-                                    onChange={(e) => setIsAdmin(e.target.checked)}
-                                ></FormCheck>
-                            )}
+                                <Form.Group controlId='confirmPassword'>
+                                    <Form.Label>Confirm Password</Form.Label>
+                                    <Form.Control
+                                        type='password'
+                                        placeholder='Confirm password'
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
+                                {userInfo && userInfo.isAdmin && (
+                                    <FormCheck
+                                        className='mb-4'
+                                        type='checkbox'
+                                        label='Admin'
+                                        checked={isAdmin}
+                                        onChange={(e) => setIsAdmin(e.target.checked)}
+                                    ></FormCheck>
+                                )}
 
-                            <Button type='submit' variant='outline-primary' block>
-                                Update
+                                <Button type='submit' variant='outline-primary' block>
+                                    Update
                 </Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            )}
-        </FormContainer>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                )}
+            </FormContainer>
+        </div>
     )
 }
 

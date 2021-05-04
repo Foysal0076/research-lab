@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardImg, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import truncateString from '../utils/truncateString'
 
 const Faculty = ({ member }) => {
 
@@ -13,10 +12,10 @@ const Faculty = ({ member }) => {
                         <CardImg src={member.image} />
                     </Link>
                     <Link to={`/faculty/${member._id}`}>
-                        <h6 className='p-1 mb-0' > <strong>{ truncateString(member.name, 20) }</strong> </h6>
+                        <p className='p-1 mb-0 text-truncate font-weight-light' > <strong>{member.name}</strong> </p>
                     </Link>
-                    <p style={{ fontSize: '.7rem' }} className=" text-primary mb-1">{member.occupationalDesignation}</p>
-                    <p style={{ fontSize: '.7rem' }} className="text-muted mb-1"> { truncateString(member.workPlace,33) } </p>
+                    <p style={{ fontSize: '.7rem' }} className=" text-primary mb-1 text-truncate">{member.occupationalDesignation}</p>
+                    <p style={{ fontSize: '.7rem' }} className="text-muted mb-1 text-truncate"> {member.workPlace} </p>
                     <button type='button' data-target={'#a' + member._id} className="btn btn-outline-primary w-100 mb-1 btn-sm" data-toggle='collapse' aria-expanded="false"> Research Interest</button>
                     <div className="collapse" id={`a${member._id}`}>
                         {member.researchInterests && member.researchInterests.length !== 0 &&

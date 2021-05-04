@@ -24,14 +24,21 @@
     display: inline-block;
     width: 65%;
     margin-left: 200px !important;
+    word-wrap: break-word;
     font-size: 1.2rem;
   }
   #focus-area-showcase .middle-para {
-    display: inline-block;
+    display: block;
     width: 65%;
-    margin-right: 200px !important;
     margin-left: 0 !important;
     font-size: 1.2rem;
+    text-align: left !important;
+    word-wrap: break-word;
+  }
+  #focus-area-showcase .middle-para,
+  .middle-para-heading {
+    word-wrap: break-word;
+    text-align: left !important;
   }
 }
 

@@ -44,7 +44,6 @@ export const listUsers = (keyword = '') => async (dispatch, geState) => {
 
         const { userLogin: { userInfo } } = geState()
 
-
         const config = {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`

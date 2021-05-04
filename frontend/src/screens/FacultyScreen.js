@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, FormControl } from 'react-bootstrap'
+import { Button, Form, FormControl, InputGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFacultyList } from '../actions/facultyActions'
 import Faculty from '../components/Faculty'
@@ -29,14 +29,19 @@ const FacultyScreen = () => {
         <>
             <Form className='py-4 w-100' onSubmit={searchClickHandler} >
                 <div className="d-flex mx-2">
-                    <FormControl
-                        type='text'
-                        name='q'
-                        onChange={onSearchChangeHandler}
-                        value={keyword}
-                        placeholder='Search Faculty Members...'
-                    ></FormControl>
-                    <Button type='submit' variant='outline-success'>Search</Button>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text > <i style={{ color: '#008cba' }} className="fas fa-search"></i> </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl
+                            type='text'
+                            name='q'
+                            onChange={onSearchChangeHandler}
+                            value={keyword}
+                            placeholder='Search Faculty Members...'
+                        ></FormControl>
+                        <Button type='submit' variant='outline-primary'>Search</Button>
+                    </InputGroup>
                 </div>
             </Form>
             <h2>Faculty</h2>

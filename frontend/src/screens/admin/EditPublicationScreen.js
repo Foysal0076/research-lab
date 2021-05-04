@@ -41,7 +41,6 @@ const EditPublicationsScreen = ({ history, match }) => {
                 }
                 dispatch({ type: AUTHOR_PUB_LINK_RESET })
                 dispatch({ type: AUTHOR_PUB_REMOVE_LINK_RESET })
-
             }
         } else {
             history.push('/login')
@@ -59,22 +58,25 @@ const EditPublicationsScreen = ({ history, match }) => {
     }
 
     const onAuthorDeleteClick = (author) => {
-        // const newAuthors = authors.filter(a => a._id !== author._id)
-        // setAuthors(newAuthors)
         dispatch(removeAuthorPubLink(author._id, match.params.id))
     }
 
     return (
         <>
+         <Button
+                variant='outline-primary'
+                className='my-2'
+                onClick={() => history.push('/admin/publications')}
+            > <i className="fas fa-arrow-left"></i> Go Back</Button>
             <h3 className='text-center' >Edit Publication</h3>
             {error && <Message variant='danger'>{error}</Message>}
             {loading ? <Loader /> : editLoading ? <Loader /> : (
                 <>
                     {editError && <Message variant='danger'>{editError}</Message>}
-                    <Row>
+                    <Row className='pb-5' >
                         <Col md={6}>
                             <>
-                                <Card>
+                                <Card className='bg-light shadow' >
                                     <Card.Body>
                                         <Form onSubmit={onSubmitHandler} >
                                             <FormGroup>
@@ -130,7 +132,7 @@ const EditPublicationsScreen = ({ history, match }) => {
                             </>
                         </Col>
                         <Col md={6}>
-                            <Card className='mb-2' >
+                            <Card className='bg-light mb-2 shadow' >
                                 <Card.Body>
                                     <h5 className='text-center' >Authors</h5>
                                     {linkingError && <Message variant='danger'>{linkingError}</Message>}
@@ -141,7 +143,7 @@ const EditPublicationsScreen = ({ history, match }) => {
                                 </Card.Body>
                             </Card>
 
-                            <Card>
+                            <Card className='bg-light mb-2 shadow'>
                                 <Card.Body>
                                     <h6 className='text-center' >Add Authors to this publication</h6>
 
@@ -153,7 +155,7 @@ const EditPublicationsScreen = ({ history, match }) => {
                                     {authorError ? <Message variant='danger'>{error}</Message> : (
                                         <ListGroup>
                                             {authorList && authorList.map((author, index) => (
-                                                <ListGroupItem key={index} className='p-1' >
+                                                <ListGroupItem key={index} className='p-1 bg-light shadow' >
                                                     <Row>
                                                         <Col sm={6} >
                                                             <p className='m-0' >{author.email}</p>

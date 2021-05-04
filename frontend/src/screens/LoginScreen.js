@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, FormControl, FormGroup, FormLabel, Row } from 'react-bootstrap'
+import { Button, Card, Col, Form, FormControl, FormGroup, FormLabel, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import FormContainer from '../components/layout/FormContainer'
@@ -30,41 +30,43 @@ const LoginScreen = ({ history }) => {
         <FormContainer>
             {error && <Message variant='danger' >{error}</Message>}
             {loading ? <Loader /> : (
-                <>
-                    <h1 >Sign In</h1>
-                    <Form onSubmit={onSubmitHandler} >
-                        <FormGroup controlId='email'>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl
-                                type='email'
-                                placeholder='Enter email'
-                                value={email}
-                                required
-                                onChange={(e) => setEmail(e.target.value)}
-                            ></FormControl>
-                        </FormGroup>
+                <Card className='mt-4 bg-light shadow' >
+                    <Card.Body>
+                        <h1 className='text-center'>Sign In</h1>
+                        <Form onSubmit={onSubmitHandler} >
+                            <FormGroup controlId='email'>
+                                <FormLabel>Email Address</FormLabel>
+                                <FormControl
+                                    type='email'
+                                    placeholder='Enter email'
+                                    value={email}
+                                    required
+                                    onChange={(e) => setEmail(e.target.value)}
+                                ></FormControl>
+                            </FormGroup>
 
-                        <FormGroup controlId='password'>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl
-                                type='password'
-                                placeholder='Enter password'
-                                value={password}
-                                required
-                                onChange={(e) => setPassword(e.target.value)}
-                            >
-                            </FormControl>
-                        </FormGroup>
-                        <Button type='submit'>Sign In</Button>
-                    </Form>
-                    <Row className='py-3'>
-                        <Col>
-                            New User? <Link to='/register' style={{ fontSize: '1.2rem' }}>
-                                Sign Up
-                    </Link>
-                        </Col>
-                    </Row>
-                </>
+                            <FormGroup controlId='password'>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl
+                                    type='password'
+                                    placeholder='Enter password'
+                                    value={password}
+                                    required
+                                    onChange={(e) => setPassword(e.target.value)}
+                                >
+                                </FormControl>
+                            </FormGroup>
+                            <Button type='submit' variant='primary' block >Sign In</Button>
+                        </Form>
+                        <Row className='py-3'>
+                            <Col>
+                                Don't have an account? <Link to='/register' style={{ fontSize: '1.2rem' }}>
+                                    Sign Up
+                                </Link>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
             )}
         </FormContainer>
     )

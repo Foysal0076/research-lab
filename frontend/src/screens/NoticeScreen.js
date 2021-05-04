@@ -46,7 +46,9 @@ const NoticeScreen = () => {
     }
 
     const onDeleteClickHandler = (id) => {
-        dispatch(deleteNotice(id))
+        if (window.confirm('Are you sure? Delete action is irreversible ')) {
+            dispatch(deleteNotice(id))
+        }
     }
 
     return (
@@ -55,10 +57,11 @@ const NoticeScreen = () => {
                 <h2>All Notice</h2>
                 {userInfo && userInfo.isAdmin &&
                     <Button
+                        variant='outline-primary'
                         onClick={() => setShowEditNoticeModal(true)}
                     >
                         <i className="fas fa-plus"></i>  Add Notice
-            </Button>
+                    </Button>
                 }
             </div>
 
@@ -71,8 +74,8 @@ const NoticeScreen = () => {
                     {createError && <Message variant='danger'>{createError}</Message>}
                     {editError && <Message variant='danger'>{editError}</Message>}
                     {deleteError && <Message variant='danger'>{deleteError}</Message>}
-                    <Table striped bordered hover responsive className='table-sm'>
-                        <thead>
+                    <Table striped bordered hover responsive className='table-sm '>
+                        <thead className='table-dark'>
                             <tr>
                                 <th>#</th>
                                 <th>TITLE</th>
@@ -133,7 +136,7 @@ const NoticeScreen = () => {
                             }}
                             keyboard={false}>
                             <ModalHeader closeButton>
-                                <ModalTitle>{notices[noticeIndex].title}</ModalTitle>
+                                <ModalTitle className='text-white' >{notices[noticeIndex].title}</ModalTitle>
                             </ModalHeader>
                             <ModalBody>
                                 <Linkify properties={{ target: '_blank', style: { color: 'red', fontWeight: 'bold' } }}>

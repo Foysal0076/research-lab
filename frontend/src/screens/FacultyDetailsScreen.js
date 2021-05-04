@@ -23,7 +23,7 @@ const FacultyDetailsScreen = ({ match }) => {
                 <Message variant='danger'>{error}</Message>
             ) : member && (
                 <div>
-                    <Card className='my-2 p-0' >
+                    <Card className='my-2 p-0 shadow' >
                         <Card.Body>
                             <Row className='justify-content-between' >
                                 <Col sm={12} md={8}>
@@ -40,7 +40,7 @@ const FacultyDetailsScreen = ({ match }) => {
                                 </Col>
                                 <Col sm={12} md={4} className='text-center'>
                                     <div className='profile-image-container' >
-                                        <Image src={member.image} style={{}} fluid />
+                                        <Image src={member.image} fluid />
                                         <Carousel.Caption className='d-flex flex-row mb-4  justify-content-between' >
                                             {member.social && member.social.facebook &&
                                                 <div className="px-2 pad-x">
@@ -78,7 +78,7 @@ const FacultyDetailsScreen = ({ match }) => {
                             </Row>
                         </Card.Body>
                     </Card>
-                    <Card>
+                    <Card className='my-2 shadow'>
                         <Card.Body>
                             <Card.Title>
                                 <h4>Research Interest</h4>
@@ -92,12 +92,15 @@ const FacultyDetailsScreen = ({ match }) => {
                             }
                         </Card.Body>
                     </Card>
-                    <Card>
+                    <Card className='my-2 shadow'>
                         <Card.Body>
                             <Card.Title>
                                 <h4>Publications</h4>
                             </Card.Title>
-                            <PublicationsTable publications={member.publications} />
+                            {member.publications.length > 0
+                                ? <PublicationsTable publications={member.publications} />
+                                : <h6>{`${member.name} has no publication yet`}</h6>
+                            }
                         </Card.Body>
                     </Card>
 

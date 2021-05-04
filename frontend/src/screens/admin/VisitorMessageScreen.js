@@ -40,7 +40,7 @@ const VisitorMessageScreen = ({ history }) => {
                 <>
                     {deleteError && <Message variant='danger'>{deleteError}</Message>}
                     <Table striped bordered hover responsive className='table-sm'>
-                        <thead>
+                        <thead className='table-dark'>
                             <tr>
                                 <th>#</th>
                                 <th>EMAIL</th>
